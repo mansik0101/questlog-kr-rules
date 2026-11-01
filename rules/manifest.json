@@ -1,9 +1,9 @@
 {
- "revision": "7.8",
+ "revision": "7.9",
  "minPatcher": "7.8",
  "files": {
-  "patches.json": "042c5a792828069666fea3e4858c84cc2bd7be73188fb2bef5460c2e1c2d20b2",
-  "renderer-patches.json": "77635dd2f8a6829d2e130ef552d93e74bce09b6c162df3dee9149e95c17dfd4f",
+  "patches.json": "d9ab24938d98db079809509a55cf1aae1a0f4bdf60bbb6cc9405546e304b4ced",
+  "renderer-patches.json": "df694780d12601d2152ec355c691fcfa4828c0f022acdc66b9eef6696d587e76",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }

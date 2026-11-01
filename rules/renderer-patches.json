@@ -479,6 +479,18 @@
       {
        "count": 1,
        "find": "(([\\w$]+)\\(`span`,\\{class:[\\w$]+\\(\\[`truncate text-\\[15px\\] font-bold`,([\\w$]+)\\.taken&&`text-dark line-through decoration-1`\\]\\)\\},([\\w$]+)\\([\\w$]+\\.\\$t\\(\\3\\.taken\\?`a2desktop\\.hiddenCubeTaken`:\\3\\.spawned\\?`a2desktop\\.hiddenCubeSpawned`:`a2desktop\\.hiddenCubeNearby`\\)\\),3\\))(?!,[\\w$]+\\(`span`,\\{\"data-kr-cube\")",
+       "replace": "${1},${2}(`span`,{\"data-kr-cube\":``,style:{display:`flex`,alignItems:`center`,gap:`8px`,marginTop:`3px`}},((c,h,t)=>{if(c.taken||c.distance==null||c.krBearing==null)return null;const b=(c.krBearing+360)%360,rel=c.krHeading!=null?(b-c.krHeading+720)%360:null,k8=a=>Math.round(a/45)&7,dirs=[`북`,`북동`,`동`,`남동`,`남`,`남서`,`서`,`북서`],w=[`정면`,`오른쪽 앞`,`오른쪽`,`오른쪽 뒤`,`뒤`,`왼쪽 뒤`,`왼쪽`,`왼쪽 앞`],col=c.distance<=15?`#73D3B4`:c.distance<=40?`#F2C14E`:`#9EC1FF`,rot=rel!=null?rel:b,sub=(rel!=null?w[k8(rel)]+` · `:`북쪽 기준 · `)+dirs[k8(b)]+(c.rise!=null&&Math.abs(c.rise)>=3?` · `+(c.rise>0?`▲`:`▼`)+Math.abs(c.rise)+`m`:``);return[h(`svg`,{viewBox:`0 0 24 24`,width:`30`,height:`30`,style:{transform:`rotate($${rot}deg)`,transition:`transform .35s ease-out`,flex:`none`,color:col,filter:`drop-shadow(0 1px 2px rgb(0 0 0/.7))`}},[h(`path`,{d:`M12 1.5 20.5 11.5H15V22.5H9V11.5H3.5Z`,fill:`currentColor`})]),h(`span`,{style:{display:`flex`,flexDirection:`column`,lineHeight:`1.1`,minWidth:`0`}},[h(`span`,{style:{color:col,fontSize:`20px`,fontWeight:`800`}},t(c.distance+`m`)),h(`span`,{style:{fontSize:`11.5px`,opacity:`.85`,whiteSpace:`nowrap`}},t(sub))])]})(${3},${2},${4}))",
+       "applied": "\"data-kr-cube\":``,style:\\{display:`flex`"
+      }
+     ]
+    },
+    {
+     "name": "regex-7.8",
+     "regex": true,
+     "edits": [
+      {
+       "count": 1,
+       "find": "(([\\w$]+)\\(`span`,\\{class:[\\w$]+\\(\\[`truncate text-\\[15px\\] font-bold`,([\\w$]+)\\.taken&&`text-dark line-through decoration-1`\\]\\)\\},([\\w$]+)\\([\\w$]+\\.\\$t\\(\\3\\.taken\\?`a2desktop\\.hiddenCubeTaken`:\\3\\.spawned\\?`a2desktop\\.hiddenCubeSpawned`:`a2desktop\\.hiddenCubeNearby`\\)\\),3\\))(?!,[\\w$]+\\(`span`,\\{\"data-kr-cube\")",
        "replace": "${1},${2}(`span`,{\"data-kr-cube\":``,class:`truncate text-[12px] font-semibold text-accent`},${4}(((c)=>{if(c.taken||c.distance==null||c.krBearing==null)return``;const b=(c.krBearing+360)%360,dirs=[`북`,`북동`,`동`,`남동`,`남`,`남서`,`서`,`북서`];let s=`$${c.distance}m · $${dirs[Math.round(b/45)&7]}쪽`;if(c.krHeading!=null){const r=(b-c.krHeading+720)%360,k=Math.round(r/45)&7,ar=[`↑`,`↗`,`→`,`↘`,`↓`,`↙`,`←`,`↖`],w=[`앞`,`오른쪽 앞`,`오른쪽`,`오른쪽 뒤`,`뒤`,`왼쪽 뒤`,`왼쪽`,`왼쪽 앞`];s+=` · $${ar[k]} $${w[k]}`}if(c.rise!=null&&Math.abs(c.rise)>=3)s+=` · $${c.rise>0?`위`:`아래`} $${Math.abs(c.rise)}m`;return s})(${3})),1)",
        "applied": "\"data-kr-cube\":``,class:`truncate text-\\[12px\\] font-semibold text-accent`"
       }
@@ -494,5 +506,5 @@
    }
   }
  ],
- "revision": "7.6"
+ "revision": "7.9"
 }
