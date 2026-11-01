@@ -1,0 +1,498 @@
+{
+ "targets": [
+  {
+   "id": "kr-regions",
+   "description": "한국 42개 서버 지역 목록과 서버별 어비스 시간표 (화면)",
+   "signature": [
+    "label:`Taiwan`",
+    "timeZone:`Asia/Taipei`",
+    ".client]["
+   ],
+   "patched": "\"kr-server-",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "find": "(tw:\\{label:`Taiwan`,client:`tw`,timeZone:`Asia/Taipei`\\})(?!,\"kr-server-)",
+       "replace": "${1},\"kr-server-시엘\":{\"label\":\"한국 시엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-이스라펠\":{\"label\":\"한국 이스라펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네자칸\":{\"label\":\"한국 네자칸\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루드라\":{\"label\":\"한국 루드라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바이젤\":{\"label\":\"한국 바이젤\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아스펠\":{\"label\":\"한국 아스펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-트리니엘\":{\"label\":\"한국 트리니엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네몬\":{\"label\":\"한국 네몬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-카이시넬\":{\"label\":\"한국 카이시넬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바바룽\":{\"label\":\"한국 바바룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-유스티엘\":{\"label\":\"한국 유스티엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-바카르마\":{\"label\":\"한국 바카르마\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아리엘\":{\"label\":\"한국 아리엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-마르쿠탄\":{\"label\":\"한국 마르쿠탄\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-에레슈키갈\":{\"label\":\"한국 에레슈키갈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루미엘\":{\"label\":\"한국 루미엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-프레기온\":{\"label\":\"한국 프레기온\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이스할겐\":{\"label\":\"한국 이스할겐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-히타니에\":{\"label\":\"한국 히타니에\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-루터스\":{\"label\":\"한국 루터스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-나니아\":{\"label\":\"한국 나니아\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-무닌\":{\"label\":\"한국 무닌\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-하달\":{\"label\":\"한국 하달\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-파프니르\":{\"label\":\"한국 파프니르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-타하바타\":{\"label\":\"한국 타하바타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-코치룽\":{\"label\":\"한국 코치룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-페르노스\":{\"label\":\"한국 페르노스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-메스람타에다\":{\"label\":\"한국 메스람타에다\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-다미누\":{\"label\":\"한국 다미누\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-오다르\":{\"label\":\"한국 오다르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-카사카\":{\"label\":\"한국 카사카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-브리트라\":{\"label\":\"한국 브리트라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-젠카카\":{\"label\":\"한국 젠카카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-울고른\":{\"label\":\"한국 울고른\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-챈가룽\":{\"label\":\"한국 챈가룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-인드나흐\":{\"label\":\"한국 인드나흐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이슈타르\":{\"label\":\"한국 이슈타르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-지켈\":{\"label\":\"한국 지켈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-티아마트\":{\"label\":\"한국 티아마트\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-크로메데\":{\"label\":\"한국 크로메데\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-포에타\":{\"label\":\"한국 포에타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-콰이링\":{\"label\":\"한국 콰이링\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-vaizel\":{\"label\":\"한국 바이젤 (이전 설정)\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2}",
+       "applied": "timeZone:`Asia/Taipei`\\},\"kr-server-",
+       "count": 1
+      },
+      {
+       "find": "function ([\\w$]+)\\(([\\w$]+),([\\w$]+)\\)\\{return ([\\w$]+)\\[([\\w$]+)\\[\\2\\]\\.client\\]\\[\\3\\]\\}",
+       "replace": "function ${1}(${2},${3}){let v=${4}[${5}[${2}].client][${3}],g=${5}[${2}].krGroup;return g!==void 0&&[\"artifact-siege\",\"siege-bosses\",\"guardian-lord-nahma\"].includes(${3})?{...v,times:[v.times[g]]}:v}",
+       "applied": "\\.krGroup;return g!==void 0&&\\[\"artifact-siege\"",
+       "count": 1
+      }
+     ]
+    },
+    {
+     "name": "0.1.39",
+     "edits": [
+      {
+       "find": "tw:{label:`Taiwan`,client:`tw`,timeZone:`Asia/Taipei`}",
+       "replace": "tw:{label:`Taiwan`,client:`tw`,timeZone:`Asia/Taipei`},\"kr-server-시엘\":{\"label\":\"한국 시엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-이스라펠\":{\"label\":\"한국 이스라펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네자칸\":{\"label\":\"한국 네자칸\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루드라\":{\"label\":\"한국 루드라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바이젤\":{\"label\":\"한국 바이젤\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아스펠\":{\"label\":\"한국 아스펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-트리니엘\":{\"label\":\"한국 트리니엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네몬\":{\"label\":\"한국 네몬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-카이시넬\":{\"label\":\"한국 카이시넬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바바룽\":{\"label\":\"한국 바바룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-유스티엘\":{\"label\":\"한국 유스티엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-바카르마\":{\"label\":\"한국 바카르마\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아리엘\":{\"label\":\"한국 아리엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-마르쿠탄\":{\"label\":\"한국 마르쿠탄\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-에레슈키갈\":{\"label\":\"한국 에레슈키갈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루미엘\":{\"label\":\"한국 루미엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-프레기온\":{\"label\":\"한국 프레기온\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이스할겐\":{\"label\":\"한국 이스할겐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-히타니에\":{\"label\":\"한국 히타니에\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-루터스\":{\"label\":\"한국 루터스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-나니아\":{\"label\":\"한국 나니아\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-무닌\":{\"label\":\"한국 무닌\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-하달\":{\"label\":\"한국 하달\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-파프니르\":{\"label\":\"한국 파프니르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-타하바타\":{\"label\":\"한국 타하바타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-코치룽\":{\"label\":\"한국 코치룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-페르노스\":{\"label\":\"한국 페르노스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-메스람타에다\":{\"label\":\"한국 메스람타에다\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-다미누\":{\"label\":\"한국 다미누\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-오다르\":{\"label\":\"한국 오다르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-카사카\":{\"label\":\"한국 카사카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-브리트라\":{\"label\":\"한국 브리트라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-젠카카\":{\"label\":\"한국 젠카카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-울고른\":{\"label\":\"한국 울고른\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-챈가룽\":{\"label\":\"한국 챈가룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-인드나흐\":{\"label\":\"한국 인드나흐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이슈타르\":{\"label\":\"한국 이슈타르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-지켈\":{\"label\":\"한국 지켈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-티아마트\":{\"label\":\"한국 티아마트\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-크로메데\":{\"label\":\"한국 크로메데\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-포에타\":{\"label\":\"한국 포에타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-콰이링\":{\"label\":\"한국 콰이링\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-vaizel\":{\"label\":\"한국 바이젤 (이전 설정)\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2}",
+       "count": 1
+      },
+      {
+       "find": "function f(t,n){return s[e[t].client][n]}",
+       "replace": "function f(t,n){let v=s[e[t].client][n],g=e[t].krGroup;return g!==void 0&&[\"artifact-siege\",\"siege-bosses\",\"guardian-lord-nahma\"].includes(n)?{...v,times:[v.times[g]]}:v}",
+       "count": 1
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "09263e562ae69ab3bb5460a34172c80298e5743afd853e459c3b96df5ec48754": "0.1.44",
+    "caea7441f56578d97b65be214abde492d173151af74107cd6702b4d50f00d7b9": "0.1.46",
+    "055acd05d6ed1f3016f8a8794fa7dcc11ba734a18852150dcdf717171ab08ec9": "0.1.47"
+   }
+  },
+  {
+   "id": "widget-lock",
+   "description": "미터기 위젯 잠금 시 클릭 통과·이동 차단 (화면)",
+   "signature": [
+    "desktop.restoreWidget",
+    "`update:locked`"
+   ],
+   "patched": "\"data-widget-unlock\"",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "find": "(([\\w$]+)=([\\w$]+)\\(\\(\\)=>([\\w$]+)&&([\\w$]+)\\.locked===!0&&([\\w$]+)\\.value\\))(?!,krLk=)",
+       "replace": "${1},krLk=${2}",
+       "applied": "\\.locked===!0&&[\\w$]+\\.value\\),krLk=[\\w$]+",
+       "count": 1
+      },
+      {
+       "find": "(grip|hit):\\(\\)=>[\\w$]+\\.value\\?(?:[\\w$]+\\.minimized\\?[\\w$]+\\.value:)?[\\w$]+\\.value:void 0",
+       "replace": "${1}:()=>void 0,locked:()=>krLk.value",
+       "applied": "(?:grip|hit):\\(\\)=>void 0,locked:\\(\\)=>krLk\\.value",
+       "count": 1
+      },
+      {
+       "find": "(class:`group/widget(?: pointer-events-auto)? relative select-none`,style:[\\w$]+\\(\\{zoom:([\\w$]+)\\([\\w$]+\\))\\}\\)",
+       "replace": "${1},pointerEvents:${2}(krLk)?`none`:void 0})",
+       "applied": "select-none`,style:[\\w$]+\\(\\{zoom:[\\w$]+\\([\\w$]+\\),pointerEvents:[\\w$]+\\(krLk\\)\\?`none`:void 0\\}\\)",
+       "count": 1
+      },
+      {
+       "find": "(\\[[\\w$]+\\.minimized\\?\\([\\w$]+\\(\\),[\\w$]+\\(`div`,\\{key:0,)(?!\"data-widget-unlock\")",
+       "replace": "${1}\"data-widget-unlock\":``,",
+       "applied": "\\.minimized\\?\\([\\w$]+\\(\\),[\\w$]+\\(`div`,\\{key:0,\"data-widget-unlock\":``,",
+       "count": 1
+      },
+      {
+       "find": "(style:[\\w$]+\\(\\{opacity:[\\w$]+\\([\\w$]+\\)\\?[\\w$]+\\([\\w$]+\\):0)(\\}\\),title:[\\w$]+\\([\\w$]+\\)\\?void 0:[\\w$]+\\.\\$t\\(`desktop\\.restoreWidget`\\))",
+       "replace": "${1},pointerEvents:`auto`${2}",
+       "applied": ":0,pointerEvents:`auto`\\}\\),title:[\\w$]+\\([\\w$]+\\)\\?void 0:[\\w$]+\\.\\$t\\(`desktop\\.restoreWidget`\\)",
+       "count": 1
+      },
+      {
+       "find": "(?<!krLk\\)&&)\\(([\\w$]+)\\(([\\w$]+)\\)\\|\\|([\\w$]+)\\(([\\w$]+)\\)\\)&&`cursor-grab active:cursor-grabbing`",
+       "replace": "!${1}(krLk)&&(${1}(${2})||${3}(${4}))&&`cursor-grab active:cursor-grabbing`",
+       "applied": "![\\w$]+\\(krLk\\)&&\\([\\w$]+\\([\\w$]+\\)\\|\\|[\\w$]+\\([\\w$]+\\)\\)&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "([\\w$]+)\\([\\w$]+\\)&&!\\1\\([\\w$]+\\)&&`cursor-grab active:cursor-grabbing`",
+       "replace": "false&&`cursor-grab active:cursor-grabbing`",
+       "applied": "false&&`cursor-grab active:cursor-grabbing`",
+       "count": 0,
+       "optional": true
+      },
+      {
+       "find": "(title:[\\w$]+\\.locked\\?[\\w$]+\\.\\$t\\(`desktop\\.unlock`\\):[\\w$]+\\.\\$t\\(`desktop\\.lock`\\),)(?!\"data-widget-unlock\")",
+       "replace": "${1}\"data-widget-unlock\":``,style:{pointerEvents:`auto`},",
+       "applied": "\\(`desktop\\.lock`\\),\"data-widget-unlock\":``,style:\\{pointerEvents:`auto`\\},",
+       "count": 1
+      },
+      {
+       "find": "([\\w$]+)\\(([\\w$]+)\\)&&`pointer-events-none`",
+       "replace": "(${1}(${2})||${1}(krLk))&&`pointer-events-none`",
+       "applied": "\\([\\w$]+\\([\\w$]+\\)\\|\\|[\\w$]+\\(krLk\\)\\)&&`pointer-events-none`",
+       "count": 0
+      },
+      {
+       "find": "(`onSettings`\\]\\)\\):[\\w$]+\\(``,!0\\),([\\w$]+)\\([\\w$]+\\))\\?\\(",
+       "replace": "${1}&&!${2}(krLk)?(",
+       "applied": "`onSettings`\\]\\)\\):[\\w$]+\\(``,!0\\),[\\w$]+\\([\\w$]+\\)&&![\\w$]+\\(krLk\\)\\?\\(",
+       "count": 1
+      }
+     ]
+    },
+    {
+     "name": "0.1.39",
+     "edits": [
+      {
+       "find": "grip:()=>Ie.value?O.value:void 0}",
+       "replace": "grip:()=>void 0,locked:()=>Ie.value}",
+       "count": 1
+      },
+      {
+       "find": "class:`group/widget relative select-none`,style:o({zoom:r(U)})",
+       "replace": "class:`group/widget relative select-none`,style:o({zoom:r(U),pointerEvents:r(Ie)?`none`:void 0})",
+       "count": 1
+      },
+      {
+       "find": "[e.minimized?(i(),p(`div`,{key:0,",
+       "replace": "[e.minimized?(i(),p(`div`,{key:0,\"data-widget-unlock\":``,",
+       "count": 1
+      },
+      {
+       "find": "style:o({opacity:r(B)?r(L):0}),title:r(H)?void 0:a.$t(`desktop.restoreWidget`)",
+       "replace": "style:o({opacity:r(B)?r(L):0,pointerEvents:`auto`}),title:r(H)?void 0:a.$t(`desktop.restoreWidget`)",
+       "count": 1
+      },
+      {
+       "find": "(r(H)||r(Fe))&&`cursor-grab active:cursor-grabbing`",
+       "replace": "!r(Ie)&&(r(H)||r(Fe))&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "r(Ie)&&!r(H)&&`cursor-grab active:cursor-grabbing`",
+       "replace": "false&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "title:e.locked?a.$t(`desktop.unlock`):a.$t(`desktop.lock`),",
+       "replace": "title:e.locked?a.$t(`desktop.unlock`):a.$t(`desktop.lock`),\"data-widget-unlock\":``,style:{pointerEvents:`auto`},",
+       "count": 1
+      },
+      {
+       "find": "r(H)&&`pointer-events-none`",
+       "replace": "(r(H)||r(Ie))&&`pointer-events-none`",
+       "count": 2
+      },
+      {
+       "find": "`onSettings`])):m(``,!0),r(H)?(i(),",
+       "replace": "`onSettings`])):m(``,!0),r(H)&&!r(Ie)?(i(),",
+       "count": 1
+      }
+     ]
+    },
+    {
+     "name": "0.1.41",
+     "edits": [
+      {
+       "find": "grip:()=>Be.value?O.value:void 0}",
+       "replace": "grip:()=>void 0,locked:()=>Be.value}",
+       "count": 1
+      },
+      {
+       "find": "class:`group/widget relative select-none`,style:o({zoom:r(H)})",
+       "replace": "class:`group/widget relative select-none`,style:o({zoom:r(H),pointerEvents:r(Be)?`none`:void 0})",
+       "count": 1
+      },
+      {
+       "find": "[e.minimized?(i(),p(`div`,{key:0,",
+       "replace": "[e.minimized?(i(),p(`div`,{key:0,\"data-widget-unlock\":``,",
+       "count": 1
+      },
+      {
+       "find": "style:o({opacity:r(z)?r(L):0}),title:r(V)?void 0:a.$t(`desktop.restoreWidget`)",
+       "replace": "style:o({opacity:r(z)?r(L):0,pointerEvents:`auto`}),title:r(V)?void 0:a.$t(`desktop.restoreWidget`)",
+       "count": 1
+      },
+      {
+       "find": "(r(V)||r(ze))&&`cursor-grab active:cursor-grabbing`",
+       "replace": "!r(Be)&&(r(V)||r(ze))&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "r(Be)&&!r(V)&&`cursor-grab active:cursor-grabbing`",
+       "replace": "false&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "title:e.locked?a.$t(`desktop.unlock`):a.$t(`desktop.lock`),",
+       "replace": "title:e.locked?a.$t(`desktop.unlock`):a.$t(`desktop.lock`),\"data-widget-unlock\":``,style:{pointerEvents:`auto`},",
+       "count": 1
+      },
+      {
+       "find": "r(V)&&`pointer-events-none`",
+       "replace": "(r(V)||r(Be))&&`pointer-events-none`",
+       "count": 2
+      },
+      {
+       "find": "`onSettings`])):m(``,!0),r(V)?(i(),",
+       "replace": "`onSettings`])):m(``,!0),r(V)&&!r(Be)?(i(),",
+       "count": 1
+      }
+     ]
+    },
+    {
+     "name": "0.1.44",
+     "edits": [
+      {
+       "find": "grip:()=>We.value?O.value:void 0,",
+       "replace": "grip:()=>void 0,locked:()=>We.value,",
+       "count": 1
+      },
+      {
+       "find": "class:`group/widget pointer-events-auto relative select-none`,style:x({zoom:d(H)})",
+       "replace": "class:`group/widget pointer-events-auto relative select-none`,style:x({zoom:d(H),pointerEvents:d(We)?`none`:void 0})",
+       "count": 1
+      },
+      {
+       "find": "[o.minimized?(v(),l(`div`,{key:0,",
+       "replace": "[o.minimized?(v(),l(`div`,{key:0,\"data-widget-unlock\":``,",
+       "count": 1
+      },
+      {
+       "find": "style:x({opacity:d(z)?d(L):0}),title:d(V)?void 0:t.$t(`desktop.restoreWidget`)",
+       "replace": "style:x({opacity:d(z)?d(L):0,pointerEvents:`auto`}),title:d(V)?void 0:t.$t(`desktop.restoreWidget`)",
+       "count": 1
+      },
+      {
+       "find": "(d(V)||d(Ue))&&`cursor-grab active:cursor-grabbing`",
+       "replace": "!d(We)&&(d(V)||d(Ue))&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "d(We)&&!d(V)&&`cursor-grab active:cursor-grabbing`",
+       "replace": "false&&`cursor-grab active:cursor-grabbing`",
+       "count": 1
+      },
+      {
+       "find": "title:o.locked?t.$t(`desktop.unlock`):t.$t(`desktop.lock`),",
+       "replace": "title:o.locked?t.$t(`desktop.unlock`):t.$t(`desktop.lock`),\"data-widget-unlock\":``,style:{pointerEvents:`auto`},",
+       "count": 1
+      },
+      {
+       "find": "d(V)&&`pointer-events-none`",
+       "replace": "(d(V)||d(We))&&`pointer-events-none`",
+       "count": 2
+      },
+      {
+       "find": "`onSettings`])):n(``,!0),d(V)?(v(),",
+       "replace": "`onSettings`])):n(``,!0),d(V)&&!d(We)?(v(),",
+       "count": 1
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "c30588b27e870eedbfd6178eb7892276be64aa0455e0429b7208c3096168d8de": "0.1.39",
+    "93f8436f8614f97fcd945393a1ec5909a843ef538345b08ed882277e6c4a14b9": "0.1.41",
+    "21f126fcaf0ae7a88181567c95c787fbdd81d9e42f8290ca2465c3eb207bb4c4": "0.1.44",
+    "e2442b30cdd182f82520ee408a8ace519605138612b8929146eb9ee187f9407b": "0.1.46",
+    "255b53c74041780d2279a510a7e9727afce6f20b48a3f759f5455e48a58b03b6": "0.1.47"
+   }
+  },
+  {
+   "id": "overlay-input",
+   "description": "오버레이 창 입력 영역·투명 배경·잠금 시 크기 조절 차단 (화면)",
+   "signature": [
+    "[data-widget-hit]",
+    "about:blank",
+    "background: transparent"
+   ],
+   "patched": "krLocked",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "find": "(for\\(let\\{name:([\\w$]+),value:([\\w$]+)\\}of document\\.documentElement\\.attributes\\)([\\w$]+)\\.documentElement\\.setAttribute\\(\\2,\\3\\))\\}",
+       "replace": "${1};${4}.documentElement.style.setProperty(`background`,`transparent`,`important`)}",
+       "applied": "\\.documentElement\\.style\\.setProperty\\(`background`,`transparent`,`important`\\)\\}",
+       "count": 1
+      },
+      {
+       "find": "([\\w$]+\\.body\\.style\\.cssText=`margin: 0; background: transparent);",
+       "replace": "${1} !important;",
+       "applied": "cssText=`margin: 0; background: transparent !important;",
+       "count": 1
+      },
+      {
+       "find": "function ([\\w$]+)\\(\\)\\{return ([\\w$]+\\.value\\|\\|[\\w$]+\\.interactive&&e\\.movable\\?\\.\\(\\)\\?e\\.handle\\(\\):(?:[\\w$]+\\.interactive\\?e\\.grip\\?\\.\\(\\):)?void 0)\\}",
+       "replace": "function ${1}(){return e.locked?.()?void 0:${2}}",
+       "applied": "\\{return e\\.locked\\?\\.\\(\\)\\?void 0:[\\w$]+\\.value\\|\\|",
+       "count": 1
+      },
+      {
+       "find": "function ([\\w$]+)\\(([\\w$]+)\\)\\{let ([\\w$]+)=([\\w$]+)\\.ownWindow\\?([\\w$]+)\\(\\):\\[\\],([\\w$]+)=(\\(?)([\\w$]+)\\(\\)\\?\\[\\]:\\[([\\w$]+)\\(\\),\\.\\.\\.\\2\\?\\.querySelectorAll\\(`\\[data-widget-hit\\]`\\)\\?\\?\\[\\],([\\w$]+)\\.value\\?e\\.card\\(\\):void 0,",
+       "replace": "function ${1}(${2}){let krLocked=!!e.locked?.(),${3}=!krLocked&&${4}.ownWindow?${5}():[],${6}=${7}${8}()?[]:[${9}(),...${2}?.querySelectorAll(krLocked?`[data-widget-unlock]`:`[data-widget-hit]`)??[],!krLocked&&${10}.value?e.card():void 0,",
+       "applied": "\\{let krLocked=!!e\\.locked\\?\\.\\(\\),",
+       "count": 1
+      },
+      {
+       "find": "([\\w$]+\\.target)\\],([\\w$]+)\\),([\\w$]+)\\(\\(\\)=>([\\w$]+)\\.value\\?e\\.card\\(\\):void 0,\\2\\)",
+       "replace": "${1},()=>e.locked?.()],${2}),${3}(()=>${4}.value?e.card():void 0,${2})",
+       "applied": "\\.target,\\(\\)=>e\\.locked\\?\\.\\(\\)\\],",
+       "count": 1
+      },
+      {
+       "find": "function ([\\w$]+)\\(e\\)\\{if\\(e\\.button!==0\\|\\|!([\\w$]+)\\.value\\)return;e\\.stopPropagation\\(\\),e\\.currentTarget\\.setPointerCapture\\(e\\.pointerId\\),([\\w$]+)\\(\\);let ([\\w$]+)=([\\w$]+)\\(e\\);",
+       "replace": "function ${1}(krEvent){if(krEvent.button!==0||!${2}.value||e.locked?.())return;krEvent.stopPropagation(),krEvent.currentTarget.setPointerCapture(krEvent.pointerId),${3}();let ${4}=${5}(krEvent);",
+       "applied": "\\(krEvent\\)\\{if\\(krEvent\\.button!==0\\|\\|![\\w$]+\\.value\\|\\|e\\.locked\\?\\.\\(\\)\\)return;",
+       "count": 1
+      },
+      {
+       "count": 0,
+       "find": "(\\],[\\w$]+=)([\\w$]+\\.value&&[\\w$]+&&[\\w$]+\\.overGame\\?\\[\\{x:0,y:0,width:)",
+       "replace": "${1}!krLocked&&${2}",
+       "applied": "\\],[\\w$]+=!krLocked&&[\\w$]+\\.value&&[\\w$]+&&[\\w$]+\\.overGame\\?\\[\\{x:0,y:0,width:",
+       "optional": true
+      }
+     ]
+    },
+    {
+     "name": "0.1.39",
+     "edits": [
+      {
+       "find": "t.documentElement.setAttribute(e,n)}",
+       "replace": "t.documentElement.setAttribute(e,n);t.documentElement.style.setProperty(`background`,`transparent`,`important`)}",
+       "count": 1
+      },
+      {
+       "find": "t.body.style.cssText=`margin: 0; background: transparent;",
+       "replace": "t.body.style.cssText=`margin: 0; background: transparent !important;",
+       "count": 1
+      },
+      {
+       "find": "function xe(){return d.value||n.interactive&&e.movable?.()?e.handle():n.interactive?e.grip?.():void 0}",
+       "replace": "function xe(){return e.locked?.()?void 0:d.value||n.interactive&&e.movable?.()?e.handle():n.interactive?e.grip?.():void 0}",
+       "count": 1
+      },
+      {
+       "find": "let Ce=``;function z(i){let a=n.ownWindow?L():[],s=(Se()?[]:[xe(),...i?.querySelectorAll(`[data-widget-hit]`)??[],ne.value?e.card():void 0,",
+       "replace": "let Ce=``;function z(i){let krLocked=!!e.locked?.(),a=!krLocked&&n.ownWindow?L():[],s=(Se()?[]:[xe(),...i?.querySelectorAll(krLocked?`[data-widget-unlock]`:`[data-widget-hit]`)??[],!krLocked&&ne.value?e.card():void 0,",
+       "count": 1
+      },
+      {
+       "find": "A,xe,Se,j.target],Oe)",
+       "replace": "A,xe,Se,j.target,()=>e.locked?.()],Oe)",
+       "count": 1
+      },
+      {
+       "find": "function ze(t){let i=e.root();if(!n.interactive||!i)return;",
+       "replace": "function ze(t){let i=e.root();if(!n.interactive||!i||e.locked?.())return;",
+       "count": 1
+      },
+      {
+       "find": "function He(e){if(e.button!==0||!d.value)return;e.stopPropagation(),e.currentTarget.setPointerCapture(e.pointerId),Me();let t=V(e);",
+       "replace": "function He(krEvent){if(krEvent.button!==0||!d.value||e.locked?.())return;krEvent.stopPropagation(),krEvent.currentTarget.setPointerCapture(krEvent.pointerId),Me();let t=V(krEvent);",
+       "count": 1
+      }
+     ]
+    },
+    {
+     "name": "0.1.41",
+     "edits": [
+      {
+       "find": "t.documentElement.setAttribute(e,n)}",
+       "replace": "t.documentElement.setAttribute(e,n);t.documentElement.style.setProperty(`background`,`transparent`,`important`)}",
+       "count": 1
+      },
+      {
+       "find": "t.body.style.cssText=`margin: 0; background: transparent;",
+       "replace": "t.body.style.cssText=`margin: 0; background: transparent !important;",
+       "count": 1
+      },
+      {
+       "find": "function Oe(){return v.value||r.interactive&&e.movable?.()?e.handle():r.interactive?e.grip?.():void 0}",
+       "replace": "function Oe(){return e.locked?.()?void 0:v.value||r.interactive&&e.movable?.()?e.handle():r.interactive?e.grip?.():void 0}",
+       "count": 1
+      },
+      {
+       "find": "let Ne=``;function Be(n){let i=r.ownWindow?J():[],a=je()?[]:[Oe(),...n?.querySelectorAll(`[data-widget-hit]`)??[],j.value?e.card():void 0,",
+       "replace": "let Ne=``;function Be(n){let krLocked=!!e.locked?.(),i=!krLocked&&r.ownWindow?J():[],a=je()?[]:[Oe(),...n?.querySelectorAll(krLocked?`[data-widget-unlock]`:`[data-widget-hit]`)??[],!krLocked&&j.value?e.card():void 0,",
+       "count": 1
+      },
+      {
+       "find": "Oe,je,V.target],Z)",
+       "replace": "Oe,je,V.target,()=>e.locked?.()],Z)",
+       "count": 1
+      },
+      {
+       "find": "function it(e){if(e.button!==0||!v.value)return;e.stopPropagation(),e.currentTarget.setPointerCapture(e.pointerId),Q();let t=nt(e);",
+       "replace": "function it(krEvent){if(krEvent.button!==0||!v.value||e.locked?.())return;krEvent.stopPropagation(),krEvent.currentTarget.setPointerCapture(krEvent.pointerId),Q();let t=nt(krEvent);",
+       "count": 1
+      }
+     ]
+    },
+    {
+     "name": "0.1.44",
+     "edits": [
+      {
+       "find": "t.documentElement.setAttribute(e,n)}",
+       "replace": "t.documentElement.setAttribute(e,n);t.documentElement.style.setProperty(`background`,`transparent`,`important`)}",
+       "count": 1
+      },
+      {
+       "find": "t.body.style.cssText=`margin: 0; background: transparent;",
+       "replace": "t.body.style.cssText=`margin: 0; background: transparent !important;",
+       "count": 1
+      },
+      {
+       "find": "function Fe(){return v.value||i.interactive&&e.movable?.()?e.handle():i.interactive?e.grip?.():void 0}",
+       "replace": "function Fe(){return e.locked?.()?void 0:v.value||i.interactive&&e.movable?.()?e.handle():i.interactive?e.grip?.():void 0}",
+       "count": 1
+      },
+      {
+       "find": "let Ge=``;function Ke(t){let r=i.ownWindow?ke():[],o=Le()?[]:[Fe(),...t?.querySelectorAll(`[data-widget-hit]`)??[],I.value?e.card():void 0,",
+       "replace": "let Ge=``;function Ke(t){let krLocked=!!e.locked?.(),r=!krLocked&&i.ownWindow?ke():[],o=Le()?[]:[Fe(),...t?.querySelectorAll(krLocked?`[data-widget-unlock]`:`[data-widget-hit]`)??[],!krLocked&&I.value?e.card():void 0,",
+       "count": 1
+      },
+      {
+       "find": "Fe,Le,K.target],Z)",
+       "replace": "Fe,Le,K.target,()=>e.locked?.()],Z)",
+       "count": 1
+      },
+      {
+       "find": "function ut(e){if(e.button!==0||!v.value)return;e.stopPropagation(),e.currentTarget.setPointerCapture(e.pointerId),Q();let t=ct(e);",
+       "replace": "function ut(krEvent){if(krEvent.button!==0||!v.value||e.locked?.())return;krEvent.stopPropagation(),krEvent.currentTarget.setPointerCapture(krEvent.pointerId),Q();let t=ct(krEvent);",
+       "count": 1
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "fd69787841eb6fd9e947d5ba64ccb347825eeee4b0d84116aefb075f9a8e10c2": "0.1.39",
+    "828a6d707f6c87d6bf4531ef4c5658913ea363908d592e48ed66473bba8a75b3": "0.1.41",
+    "633d2d993b74b5b8bb9cc53ba03afb3dacfe32f5f1a8de63b4a0336abe403540": "0.1.44",
+    "ef4f4682ecb64297501c48a465a9fed2189e76577379dd0aec3ad0e51cca3172": "0.1.46",
+    "ba46ce8843d09714ad01b605e5327fe1f0674086a3fd296235e9610417789892": "0.1.47"
+   }
+  },
+  {
+   "id": "hidden-cube",
+   "description": "히든큐브 알림에 거리·방향·높이 표시 (화면)",
+   "signature": [
+    "`a2desktop.hiddenCubeNearby`",
+    "`a2desktop.hiddenCubeKeys`"
+   ],
+   "patched": "\"data-kr-cube\"",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "count": 1,
+       "find": "(([\\w$]+)\\(`span`,\\{class:[\\w$]+\\(\\[`truncate text-\\[15px\\] font-bold`,([\\w$]+)\\.taken&&`text-dark line-through decoration-1`\\]\\)\\},([\\w$]+)\\([\\w$]+\\.\\$t\\(\\3\\.taken\\?`a2desktop\\.hiddenCubeTaken`:\\3\\.spawned\\?`a2desktop\\.hiddenCubeSpawned`:`a2desktop\\.hiddenCubeNearby`\\)\\),3\\))(?!,[\\w$]+\\(`span`,\\{\"data-kr-cube\")",
+       "replace": "${1},${2}(`span`,{\"data-kr-cube\":``,class:`truncate text-[12px] font-semibold text-accent`},${4}(((c)=>{if(c.taken||c.distance==null||c.krBearing==null)return``;const b=(c.krBearing+360)%360,dirs=[`북`,`북동`,`동`,`남동`,`남`,`남서`,`서`,`북서`];let s=`$${c.distance}m · $${dirs[Math.round(b/45)&7]}쪽`;if(c.krHeading!=null){const r=(b-c.krHeading+720)%360,k=Math.round(r/45)&7,ar=[`↑`,`↗`,`→`,`↘`,`↓`,`↙`,`←`,`↖`],w=[`앞`,`오른쪽 앞`,`오른쪽`,`오른쪽 뒤`,`뒤`,`왼쪽 뒤`,`왼쪽`,`왼쪽 앞`];s+=` · $${ar[k]} $${w[k]}`}if(c.rise!=null&&Math.abs(c.rise)>=3)s+=` · $${c.rise>0?`위`:`아래`} $${Math.abs(c.rise)}m`;return s})(${3})),1)",
+       "applied": "\"data-kr-cube\":``,class:`truncate text-\\[12px\\] font-semibold text-accent`"
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "82cede4539ac4ef4f97e74bf65462667644e980f77875a399596642771c1c00c": "0.1.39",
+    "afc28dd51d9797987d00f590644c937391ae688ce67d2a7d34e9fd787144d035": "0.1.41",
+    "f946bd9085dfc41683e849ecfac532bc264299ec1ab7177085adecc142c34b6d": "0.1.44",
+    "af15ad7c15f7681f305d52bdac2466c7c37bc0f992cec9d204f196c328515ff1": "0.1.46",
+    "712cb4886661b7ee2265f09b2675c161f2708b0211588778fcc82648506c3ee0": "0.1.47"
+   }
+  }
+ ],
+ "revision": "7.6"
+}
