@@ -504,7 +504,97 @@
     "af15ad7c15f7681f305d52bdac2466c7c37bc0f992cec9d204f196c328515ff1": "0.1.46",
     "712cb4886661b7ee2265f09b2675c161f2708b0211588778fcc82648506c3ee0": "0.1.47"
    }
+  },
+  {
+   "id": "cube-map-marker",
+   "description": "지도: 히든큐브를 보라색 큰 점으로 표시 (화면)",
+   "signature": [
+    "`LiveLayer`",
+    "bg-success shadow-[0_0_6px_rgb(0_0_0/0.8)]"
+   ],
+   "patched": "\"data-kr-cubemark\"",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "count": 1,
+       "find": "(\\{key:`object-\\$\\{([\\w$]+)\\.entity\\}`,[^{}]{0,160}\\},\\{default:[\\w$]+\\(\\(\\)=>)\\[\\.\\.\\.[\\w$]+\\[\\d+\\]\\|\\|=\\[([\\w$]+)\\(`span`,\\{class:`block size-3 rounded-full border-2 border-white bg-success shadow-\\[0_0_6px_rgb\\(0_0_0/0\\.8\\)\\]`\\},null,-1\\)\\]\\]\\),_:1\\}",
+       "replace": "${1}[${3}(`span`,{class:`block size-3 rounded-full border-2 border-white bg-success shadow-[0_0_6px_rgb(0_0_0/0.8)]`,\"data-kr-cubemark\":``,style:[1200036,1200037,1200039,1200040,1200041,1200667,1201502,1201503,1201504,1201505,1300081,1300082,1300754,1301199,1301200,1301242,1301243,1301244,1301245].includes(${2}.object)?{width:`20px`,height:`20px`,backgroundColor:`#b39dff`,boxShadow:`0 0 0 2px rgb(0 0 0/.6),0 0 14px #b39dff`}:void 0},null,4)]),_:2}",
+       "applied": "\"data-kr-cubemark\":``,style:\\[1200036"
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "32efb638683a432d552a05ee499d8ec6aaaca635a8de889ca1a0525358c9e357": "0.1.39",
+    "c680b0979c804d21f3a168ae172f5cd501c8420f94665e3a8e1606b7bd39a66d": "0.1.41",
+    "136857fdfc858beece35289b8bd1b632ddc05b9e7b46a1a1ec78047343014b06": "0.1.44",
+    "50b2ffa90f38bea8ec66915f70b785cce21f1176023b27e5892a830e97a94ae4": "0.1.46",
+    "d328461a6b473fb63fe6e6bd03b2bf488d841017d25c7e31a8fa74b657bc2b86": "0.1.47"
+   }
+  },
+  {
+   "id": "cube-map-list-overlay",
+   "description": "미니맵 위젯: 근처 히든큐브를 지도에 띄움 (화면)",
+   "signature": [
+    "\"hide-detail-panel\"",
+    "e=>e.objects"
+   ],
+   "patched": "\"hide-detail-panel\"",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "count": 1,
+       "find": "(objects:(?:[\\w$]+\\([\\w$]+\\)===`markers`\\?\\[\\]:)?[\\w$]+\\([\\w$]+\\)\\.flatMap\\(e=>e\\.objects\\))(?!\\.concat\\(\\[1200036)",
+       "replace": "${1}.concat([1200036,1200037,1200039,1200040,1200041,1200667,1201502,1201503,1201504,1201505,1300081,1300082,1300754,1301199,1301200,1301242,1301243,1301244,1301245])",
+       "applied": "\\.flatMap\\(e=>e\\.objects\\)\\.concat\\(\\[1200036"
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "c9357299e74363a0949fa83716057e407f32452266552cda0dc54dc453f52840": "0.1.39",
+    "2ce910220ef63b897485e53b6067a290958bd21563c890630f6e187a523cae46": "0.1.41",
+    "58d25bcce105b66b9fe8a62acbb222c86c2399137ff2e425b3da58aa5b802390": "0.1.44",
+    "08d3a8ab39a5fca824b0c112788d0cafbbc20ed2cd9765ccb0f66c4b07657223": "0.1.46",
+    "2fdc8020a625cefc23024fed0b9e2e8ab285cc986d00bb393529a5ea7c56c96a": "0.1.47"
+   }
+  },
+  {
+   "id": "cube-map-list-page",
+   "description": "지도 화면: 근처 히든큐브를 지도에 띄움 (화면)",
+   "signature": [
+    "`markers`?[]:",
+    "e=>e.objects"
+   ],
+   "patched": "`markers`?[]:",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "count": 1,
+       "find": "(objects:(?:[\\w$]+\\([\\w$]+\\)===`markers`\\?\\[\\]:)?[\\w$]+\\([\\w$]+\\)\\.flatMap\\(e=>e\\.objects\\))(?!\\.concat\\(\\[1200036)",
+       "replace": "${1}.concat([1200036,1200037,1200039,1200040,1200041,1200667,1201502,1201503,1201504,1201505,1300081,1300082,1300754,1301199,1301200,1301242,1301243,1301244,1301245])",
+       "applied": "\\.flatMap\\(e=>e\\.objects\\)\\.concat\\(\\[1200036"
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "fa66273c46ba2f3aa4740ee8058fa333de3dda625bd34a447a589a0f5b6604cb": "0.1.39",
+    "05a23ee570ebe4c629aa97cfbd093073fe3fc6e7cca45c60ac1cc89ee564861e": "0.1.41",
+    "3029c0bd2bd207a5fbcd2a626c8954f626c97ab7379efcd74137c06f356a9c67": "0.1.44",
+    "65f064024ab2d60b18b2a763538660c47efad5a87975472540e7a1e3e4d49111": "0.1.46",
+    "c7fa2a38ce5e28682d5aa94f96de11cf0089914b5fb81aad9cffd2deef55e873": "0.1.47"
+   }
   }
  ],
- "revision": "7.9"
+ "revision": "8.0"
 }
