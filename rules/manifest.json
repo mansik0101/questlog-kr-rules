@@ -1,8 +1,31 @@
 {
- "revision": "8.0",
- "minPatcher": "7.8",
+ "revision": "8.1",
+ "minPatcher": "8.1",
+ "notes": [
+  {
+   "rev": "8.1",
+   "lines": [
+    "히든큐브 레이더 추가: 북쪽이 위인 작은 원형 레이더에 큐브 방향·거리·높이 표시",
+    "새 큐브 발견 시 '히든큐브, 북동쪽 21미터', 10m 안에 들어오면 '10미터 안' 음성",
+    "설정 창(Ctrl+Alt+K)에서 레이더 크기·범위·배경·소리 조절",
+    "패처 rev 8.1 exe가 필요합니다"
+   ]
+  },
+  {
+   "rev": "8.0",
+   "lines": [
+    "Questlog 지도에 히든큐브 위치를 보라색 점으로 표시"
+   ]
+  },
+  {
+   "rev": "7.9",
+   "lines": [
+    "히든큐브 카드에 방향 화살표와 거리 표시"
+   ]
+  }
+ ],
  "files": {
-  "patches.json": "24a78abbe6dbefceca39ba9ca485b52bffdcdb949fdadeef8128750e42481f4c",
+  "patches.json": "1354579c50e53e1de3f625a98ab208c778c28f1c46ee5649da27d67ba9d38c8a",
   "renderer-patches.json": "68d687da83b124b11671a4ac1a1f31436f973d7ea97d8bd52015376b363c81a7",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
