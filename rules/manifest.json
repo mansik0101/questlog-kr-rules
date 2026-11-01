@@ -1,7 +1,14 @@
 {
- "revision": "8.1",
+ "revision": "8.2",
  "minPatcher": "8.1",
  "notes": [
+  {
+   "rev": "8.2",
+   "lines": [
+    "포스 키스크 알림 준비용 기록 추가 (화면·알림 변화 없음)",
+    "키스크 설치·포스 가입 때의 게임 데이터를 kisk-log.ndjson 파일에 저장 (최대 20MB)"
+   ]
+  },
   {
    "rev": "8.1",
    "lines": [
@@ -25,7 +32,7 @@
   }
  ],
  "files": {
-  "patches.json": "1354579c50e53e1de3f625a98ab208c778c28f1c46ee5649da27d67ba9d38c8a",
+  "patches.json": "3e6eda4bc05b5018c98c9c50a8ed867e2b917149df291b829e3b14fbc2e8d7ca",
   "renderer-patches.json": "68d687da83b124b11671a4ac1a1f31436f973d7ea97d8bd52015376b363c81a7",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }

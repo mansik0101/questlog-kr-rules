@@ -1,194 +1,202 @@
 ﻿{
-  "name": "퀘스트 로그 한섭 패치",
-  "revision": "8.1",
-  "updated": "2026-11-01",
-  "updateUrl": "",
-  "originals": {
-    "0.1.39": "89744492146c622e9f2d31b3d7ac00a30224add7175e8a7f5f14415e3f91f583",
-    "0.1.41": "308cf2d9815342081ed6e8e989eaa874d36281b5721be208c3db98fd922e0da4",
-    "0.1.44": "eaa45e5fcf70b1d458cc0306b285852f99cba256e7c4e4588f5378b25e7fa8a9",
-    "0.1.46": "2c7d7e797fda5caa1b650c0d12acd04384f85d6a8d6b9011b54710c56e1af5f8",
-    "0.1.47": "020dd9a2c99042467173a0ed30495c2b8d6f0866b75d7c4d6c548dd0fc3347e6"
+ "name": "퀘스트 로그 한섭 패치",
+ "revision": "8.2",
+ "updated": "2026-11-01",
+ "updateUrl": "",
+ "originals": {
+  "0.1.39": "89744492146c622e9f2d31b3d7ac00a30224add7175e8a7f5f14415e3f91f583",
+  "0.1.41": "308cf2d9815342081ed6e8e989eaa874d36281b5721be208c3db98fd922e0da4",
+  "0.1.44": "eaa45e5fcf70b1d458cc0306b285852f99cba256e7c4e4588f5378b25e7fa8a9",
+  "0.1.46": "2c7d7e797fda5caa1b650c0d12acd04384f85d6a8d6b9011b54710c56e1af5f8",
+  "0.1.47": "020dd9a2c99042467173a0ed30495c2b8d6f0866b75d7c4d6c548dd0fc3347e6"
+ },
+ "rules": [
+  {
+   "id": "npc-appear-flags-u32",
+   "description": "NpcAppear_NT 플래그를 16비트 대신 32비트로 읽음",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "([\\w$]+=([\\w$]+)\\.vi32\\(\\),[\\w$]+=\\2\\.)u16(\\(\\);return\\{key:[\\w$]+,desc:[\\w$]+\\(\\2\\),state:[\\w$]+\\(\\2\\),abnormals:\\2\\.list\\([\\w$]+\\),moveState:)",
+   "replace": "${1}u32${3}",
+   "applied": "[\\w$]+=([\\w$]+)\\.vi32\\(\\),[\\w$]+=\\1\\.u32\\(\\);return\\{key:[\\w$]+,desc:[\\w$]+\\(\\1\\),state:[\\w$]+\\(\\1\\),abnormals:\\1\\.list\\([\\w$]+\\),moveState:"
   },
-  "rules": [
-    {
-      "id": "npc-appear-flags-u32",
-      "description": "NpcAppear_NT 플래그를 16비트 대신 32비트로 읽음",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "([\\w$]+=([\\w$]+)\\.vi32\\(\\),[\\w$]+=\\2\\.)u16(\\(\\);return\\{key:[\\w$]+,desc:[\\w$]+\\(\\2\\),state:[\\w$]+\\(\\2\\),abnormals:\\2\\.list\\([\\w$]+\\),moveState:)",
-      "replace": "${1}u32${3}",
-      "applied": "[\\w$]+=([\\w$]+)\\.vi32\\(\\),[\\w$]+=\\1\\.u32\\(\\);return\\{key:[\\w$]+,desc:[\\w$]+\\(\\1\\),state:[\\w$]+\\(\\1\\),abnormals:\\1\\.list\\([\\w$]+\\),moveState:"
-    },
-    {
-      "id": "equip-extra-bool",
-      "description": "장비 정보 끝(fxBit 앞)에서 불리언 하나를 추가로 읽음",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "(override:([\\w$]+)\\.bool\\(\\),)(fxBit:\\2\\.vi32\\(\\))",
-      "replace": "${1}unknownKrFlag:${2}.bool(),${3}",
-      "applied": "override:([\\w$]+)\\.bool\\(\\),unknownKrFlag:\\1\\.bool\\(\\),fxBit:\\1\\.vi32\\(\\)"
-    },
-    {
-      "id": "party-confirmation-cache",
-      "description": "15초 만료 파티원 확인 캐시",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "(function [\\w$]+\\(([\\w$]+)\\)\\{)(let (?:[\\w$]+=new Map,){8}[\\w$]+=new Set,(?:[\\w$]+,)?[\\w$]+=\\2\\.selfName)",
-      "replace": "${1}let krPartySeen=new Map,krPartyNow=0,krRosterIds=new Set;function krRecent(id){return krPartySeen.has(id)&&krPartyNow-krPartySeen.get(id)<=15000}${3}",
-      "applied": "function [\\w$]+\\([\\w$]+\\)\\{let krPartySeen=new Map,krPartyNow=0,krRosterIds=new Set;function krRecent\\(id\\)\\{return krPartySeen\\.has\\(id\\)&&krPartyNow-krPartySeen\\.get\\(id\\)<=15000\\}let [\\w$]+=new Map,"
-    },
-    {
-      "id": "party-confirmation-events",
-      "description": "상태 갱신으로 파티원 확인 및 지역 이동 시 초기화",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "function ([\\w$]+)\\(([\\w$]+)\\)\\{switch\\(([\\w$]+)=void 0,\\2\\.type\\)\\{case\"map\":([\\w$]+)\\.clear\\(\\)",
-      "replace": "function ${1}(${2}){krPartyNow=Math.max(krPartyNow,${2}.at??0);switch(${3}=void 0,${2}.type){case\"party-member-seen\":krPartySeen.set(${2}.id,${2}.at);for(let[id,at]of krPartySeen)if(krPartyNow-at>15000)krPartySeen.delete(id);break;case\"map\":krPartySeen.clear(),${4}.clear()",
-      "applied": "function [\\w$]+\\(([\\w$]+)\\)\\{krPartyNow=Math\\.max\\(krPartyNow,\\1\\.at\\?\\?0\\);switch\\([\\w$]+=void 0,\\1\\.type\\)\\{case\"party-member-seen\":krPartySeen\\.set\\(\\1\\.id,\\1\\.at\\);for\\(let\\[id,at\\]of krPartySeen\\)if\\(krPartyNow-at>15000\\)krPartySeen\\.delete\\(id\\);break;case\"map\":krPartySeen\\.clear\\(\\),[\\w$]+\\.clear\\(\\)"
-    },
-    {
-      "id": "party-confirmation-roster-reset",
-      "description": "전체 명단 수신 시 보조 확인 초기화",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "case\"roster\":for\\(let ([\\w$]+) of ([\\w$]+)\\.members\\)\\1\\.entity!==0",
-      "replace": "case\"roster\":krPartySeen.clear();krRosterIds=new Set(${2}.members.map(m=>m.id));for(let ${1} of ${2}.members)${1}.entity!==0",
-      "applied": "case\"roster\":krPartySeen\\.clear\\(\\);krRosterIds=new Set\\(([\\w$]+)\\.members\\.map\\(m=>m\\.id\\)\\);for\\(let ([\\w$]+) of \\1\\.members\\)\\2\\.entity!==0"
-    },
-    {
-      "id": "party-confirmation-leave-reset",
-      "description": "탈퇴 시 보조 확인 초기화",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "case\"party-left\":([\\w$]+)=new Set;break;",
-      "replace": "case\"party-left\":krPartySeen.clear(),krRosterIds=new Set,${1}=new Set;break;",
-      "applied": "case\"party\\-left\":krPartySeen\\.clear\\(\\),krRosterIds=new Set,[\\w$]+=new Set;break;"
-    },
-    {
-      "id": "party-membership-recovery",
-      "description": "캐릭터 ID로 누락된 파티원 집계 복구",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "([\\w$]+)\\.get\\(([\\w$]+)\\);return \\2===([\\w$]+)\\|\\|([\\w$]+)!==void 0&&([\\w$]+)\\.has\\(([\\w$]+)\\(\\4\\)\\)\\},get self\\(\\)",
-      "replace": "${1}.get(${2});return ${2}===${3}||${4}!==void 0&&(${5}.has(${6}(${4}))||krRosterIds.has(${4}.id)||krRecent(${4}.id))},isPartyMemberId:id=>krRecent(id)||krRosterIds.has(id)||[...${1}].some(([entity,p])=>p.id===id&&(entity===${3}||${5}.has(${6}(p)))),get self()",
-      "applied": "return ([\\w$]+)===([\\w$]+)\\|\\|([\\w$]+)!==void 0&&\\(([\\w$]+)\\.has\\(([\\w$]+)\\(\\3\\)\\)\\|\\|krRosterIds\\.has\\(\\3\\.id\\)\\|\\|krRecent\\(\\3\\.id\\)\\)\\},isPartyMemberId:id=>krRecent\\(id\\)\\|\\|krRosterIds\\.has\\(id\\)\\|\\|\\[\\.\\.\\.[\\w$]+\\]\\.some\\(\\(\\[entity,p\\]\\)=>p\\.id===id&&\\(entity===\\2\\|\\|\\4\\.has\\(\\5\\(p\\)\\)\\)\\),get self\\(\\)"
-    },
-    {
-      "id": "party-status-confirmation",
-      "description": "파티·포스 상태 패킷에서 파티원 확인 전달",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "return!([\\w$]+)\\|\\|\\1\\.level===([\\w$]+)\\.level&&\\1\\.gearScore===\\2\\.gearScore&&\\1\\.combatPower===\\2\\.combatPower&&\\1\\.legion===\\2\\.legion\\?\\[\\]:\\(([\\w$]+)\\.set\\(([\\w$]+)\\.data\\.dbid,\\{\\.\\.\\.\\1,\\.\\.\\.\\2\\}\\),\\[([\\w$]+)\\(\"player-update\",\\{at:([\\w$]+),entity:\\1\\.entity,\\.\\.\\.\\2\\}\\)\\]\\)",
-      "replace": "return[${5}(\"party-member-seen\",{at:${6},id:String(${4}.data.dbid)}),...(!${1}||${1}.level===${2}.level&&${1}.gearScore===${2}.gearScore&&${1}.combatPower===${2}.combatPower&&${1}.legion===${2}.legion?[]:(${3}.set(${4}.data.dbid,{...${1},...${2}}),[${5}(\"player-update\",{at:${6},entity:${1}.entity,...${2}})]))]",
-      "applied": "return\\[([\\w$]+)\\(\"party-member-seen\",\\{at:([\\w$]+),id:String\\(([\\w$]+)\\.data\\.dbid\\)\\}\\),\\.\\.\\.\\(!([\\w$]+)\\|\\|"
-    },
-    {
-      "id": "party-ready-display",
-      "description": "전원 파티 확인 시 오래된 모집 준비 표시 숨김",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "!([\\w$]+)\\|\\|\\1\\.members\\.length<=([\\w$]+)\\|\\|!\\1\\.members\\.some\\(([\\w$]+)\\)\\)return null;(?=let [\\w$]+=\\1\\.leader,[\\w$]+=([\\w$]+)\\.self===void 0)",
-      "replace": "!${1}||${1}.members.length<=${2}||!${1}.members.some(${3})||${1}.members.every(p=>${4}.isPartyMemberId(p.id)))return null;",
-      "applied": "\\.members\\.every\\(p=>[\\w$]+\\.isPartyMemberId\\(p\\.id\\)\\)\\)return null;"
-    },
-    {
-      "id": "kr-server-regions",
-      "description": "한국 42개 서버 알림 지역 추가",
-      "file": ".output/electron/main.cjs",
-      "find": "(?:tw:\\{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"\\}\\}|tw:\\{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"\\},\"kr-vaizel\":\\{label:\"한국 바이젤\",client:\"kr\",timeZone:\"Asia/Seoul\"\\}\\})",
-      "replace": "tw:{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"},\"kr-server-시엘\":{\"label\":\"한국 시엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-이스라펠\":{\"label\":\"한국 이스라펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네자칸\":{\"label\":\"한국 네자칸\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루드라\":{\"label\":\"한국 루드라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바이젤\":{\"label\":\"한국 바이젤\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아스펠\":{\"label\":\"한국 아스펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-트리니엘\":{\"label\":\"한국 트리니엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네몬\":{\"label\":\"한국 네몬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-카이시넬\":{\"label\":\"한국 카이시넬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바바룽\":{\"label\":\"한국 바바룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-유스티엘\":{\"label\":\"한국 유스티엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-바카르마\":{\"label\":\"한국 바카르마\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아리엘\":{\"label\":\"한국 아리엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-마르쿠탄\":{\"label\":\"한국 마르쿠탄\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-에레슈키갈\":{\"label\":\"한국 에레슈키갈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루미엘\":{\"label\":\"한국 루미엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-프레기온\":{\"label\":\"한국 프레기온\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이스할겐\":{\"label\":\"한국 이스할겐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-히타니에\":{\"label\":\"한국 히타니에\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-루터스\":{\"label\":\"한국 루터스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-나니아\":{\"label\":\"한국 나니아\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-무닌\":{\"label\":\"한국 무닌\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-하달\":{\"label\":\"한국 하달\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-파프니르\":{\"label\":\"한국 파프니르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-타하바타\":{\"label\":\"한국 타하바타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-코치룽\":{\"label\":\"한국 코치룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-페르노스\":{\"label\":\"한국 페르노스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-메스람타에다\":{\"label\":\"한국 메스람타에다\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-다미누\":{\"label\":\"한국 다미누\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-오다르\":{\"label\":\"한국 오다르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-카사카\":{\"label\":\"한국 카사카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-브리트라\":{\"label\":\"한국 브리트라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-젠카카\":{\"label\":\"한국 젠카카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-울고른\":{\"label\":\"한국 울고른\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-챈가룽\":{\"label\":\"한국 챈가룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-인드나흐\":{\"label\":\"한국 인드나흐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이슈타르\":{\"label\":\"한국 이슈타르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-지켈\":{\"label\":\"한국 지켈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-티아마트\":{\"label\":\"한국 티아마트\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-크로메데\":{\"label\":\"한국 크로메데\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-포에타\":{\"label\":\"한국 포에타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-콰이링\":{\"label\":\"한국 콰이링\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-vaizel\":{\"label\":\"한국 바이젤 (이전 설정)\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2}}",
-      "applied": "tw:\\{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"\\},\"kr-server-시엘\":\\{\"label\":\"한국 시엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-이스라펠\":\\{\"label\":\"한국 이스라펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-네자칸\":\\{\"label\":\"한국 네자칸\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-루드라\":\\{\"label\":\"한국 루드라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-바이젤\":\\{\"label\":\"한국 바이젤\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-아스펠\":\\{\"label\":\"한국 아스펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-트리니엘\":\\{\"label\":\"한국 트리니엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-네몬\":\\{\"label\":\"한국 네몬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-카이시넬\":\\{\"label\":\"한국 카이시넬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-바바룽\":\\{\"label\":\"한국 바바룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-유스티엘\":\\{\"label\":\"한국 유스티엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-바카르마\":\\{\"label\":\"한국 바카르마\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-아리엘\":\\{\"label\":\"한국 아리엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-마르쿠탄\":\\{\"label\":\"한국 마르쿠탄\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-에레슈키갈\":\\{\"label\":\"한국 에레슈키갈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-루미엘\":\\{\"label\":\"한국 루미엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-프레기온\":\\{\"label\":\"한국 프레기온\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-이스할겐\":\\{\"label\":\"한국 이스할겐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-히타니에\":\\{\"label\":\"한국 히타니에\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-루터스\":\\{\"label\":\"한국 루터스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-나니아\":\\{\"label\":\"한국 나니아\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-무닌\":\\{\"label\":\"한국 무닌\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-하달\":\\{\"label\":\"한국 하달\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-파프니르\":\\{\"label\":\"한국 파프니르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-타하바타\":\\{\"label\":\"한국 타하바타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-코치룽\":\\{\"label\":\"한국 코치룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-페르노스\":\\{\"label\":\"한국 페르노스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-메스람타에다\":\\{\"label\":\"한국 메스람타에다\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-다미누\":\\{\"label\":\"한국 다미누\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-오다르\":\\{\"label\":\"한국 오다르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-카사카\":\\{\"label\":\"한국 카사카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-브리트라\":\\{\"label\":\"한국 브리트라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-젠카카\":\\{\"label\":\"한국 젠카카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-울고른\":\\{\"label\":\"한국 울고른\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-챈가룽\":\\{\"label\":\"한국 챈가룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-인드나흐\":\\{\"label\":\"한국 인드나흐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-이슈타르\":\\{\"label\":\"한국 이슈타르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-지켈\":\\{\"label\":\"한국 지켈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-티아마트\":\\{\"label\":\"한국 티아마트\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-크로메데\":\\{\"label\":\"한국 크로메데\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-포에타\":\\{\"label\":\"한국 포에타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-콰이링\":\\{\"label\":\"한국 콰이링\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-vaizel\":\\{\"label\":\"한국 바이젤 \\(이전 설정\\)\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\}\\}"
-    },
-    {
-      "id": "kr-server-times",
-      "description": "한국 서버별 어비스 시간표 적용 (2026-10-21)",
-      "file": ".output/electron/main.cjs",
-      "find": "function ([\\w$]+)\\(([\\w$]+),([\\w$]+)\\)\\{return ([\\w$]+)\\[([\\w$]+)\\[\\2\\]\\.client\\]\\[\\3\\]\\}",
-      "replace": "function ${1}(${2},${3}){let s=${4}[${5}[${2}].client][${3}],g=${5}[${2}].krGroup;return g!==void 0&&[\"artifact-siege\",\"siege-bosses\",\"guardian-lord-nahma\"].includes(${3})?{...s,times:[s.times[g]]}:s}",
-      "applied": "function [\\w$]+\\(([\\w$]+),([\\w$]+)\\)\\{let s=[\\w$]+\\[([\\w$]+)\\[\\1\\]\\.client\\]\\[\\2\\],g=\\3\\[\\1\\]\\.krGroup;return g!==void 0&&\\[\"artifact-siege\",\"siege-bosses\",\"guardian-lord-nahma\"\\]\\.includes\\(\\2\\)\\?\\{\\.\\.\\.s,times:\\[s\\.times\\[g\\]\\]\\}:s\\}"
-    },
-    {
-      "id": "overlay-transparent-window",
-      "description": "오버레이 자식 창 투명 배경 명시",
-      "file": ".output/electron/main.cjs",
-      "find": "var ([\\w$]+)=\\{transparent:!0,frame:!1",
-      "replace": "var ${1}={transparent:!0,backgroundColor:\"#00000000\",frame:!1",
-      "applied": "var [\\w$]+=\\{transparent:!0,backgroundColor:\"#00000000\",frame:!1"
-    },
-    {
-      "id": "sticky-topmost-refresh",
-      "description": "핀 창 표시 시 최상위 속성 재확인",
-      "file": ".output/electron/main.cjs",
-      "find": "let ([\\w$]+)=([\\w$]+)\\.get\\(([\\w$]+)\\);(?!\\1\\?\\.ready&&!\\1\\.window\\.isDestroyed)(?=(?:[^;]{0,300}?,)?[\\w$]+&&\\1\\?\\.window\\.isVisible\\(\\)\\?)",
-      "replace": "let ${1}=${2}.get(${3});${1}?.ready&&!${1}.window.isDestroyed()&&!${1}.window.isAlwaysOnTop()&&${1}.window.setAlwaysOnTop(!0,\"screen-saver\");",
-      "applied": "let ([\\w$]+)=[\\w$]+\\.get\\(([\\w$]+)\\);\\1\\?\\.ready&&!\\1\\.window\\.isDestroyed\\(\\)&&!\\1\\.window\\.isAlwaysOnTop\\(\\)&&\\1\\.window\\.setAlwaysOnTop\\(!0,\"screen-saver\"\\);"
-    },
-    {
-      "id": "kr-callout-export",
-      "description": "보스 패턴 이벤트를 콜아웃용으로 기록 (KR 콜아웃)",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "(\\{world:([\\w$]+)\\}=[\\w$]+\\.session[\\s\\S]{0,8000}?)(function [\\w$]+\\(e\\)\\{if\\(!\\(!e\\|\\|e\\.length===0\\)\\)\\{for\\(let t of e\\)(?:\\{if\\()?(?:[^,;{}]{0,200},)?[\\w$]+\\.add\\(t\\),)(?!krCo\\()",
-      "replace": "${1}var krCoFile,krCoBytes=0,krCoFs=require(\"fs\"),krCoPath=require(\"path\");try{let krWd=krCoPath.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\");krCoFs.mkdirSync(krWd,{recursive:!0});krCoFs.writeFileSync(krCoPath.join(krWd,\"worker.json\"),JSON.stringify({at:Date.now(),pid:process.pid}))}catch{}var krCubeIds=new Set([1200036,1200037,1200039,1200040,1200041,1200667,1201502,1201503,1201504,1201505,1300081,1300082,1300754,1301199,1301200,1301242,1301243,1301244,1301245]),krCubes=new Set,krMeAt=0;function krCo(t,W){try{let T=t.type,o,g;if(T===\"cast-begin\"||T===\"telegraph\"){if(W.isPlayer(W.ownerOf(t.entity)))return;let n=W.npcOf(t.entity)?.npc;if(!n)return;g=t.target;o={at:t.at,k:T,npc:n,id:t.skill,ms:t.castMs??t.durationMs,self:g!==void 0&&g===W.self,tgt:g!==void 0&&W.isPlayer(g)?W.describePlayer(g).name:void 0}}else if(T===\"buff\"){if(t.caster===void 0||W.isPlayer(W.ownerOf(t.caster))||!W.isPlayer(t.target))return;if(t.target!==W.self&&!W.inParty(t.target))return;o={at:t.at,k:T,npc:W.npcOf(t.caster)?.npc,id:t.buff,self:t.target===W.self,tgt:W.describePlayer(t.target).name}}else if(T===\"map\"){krCubes.clear();o={at:t.at,k:T}}else if(T===\"object\"){if(!krCubeIds.has(t.object))return;krCubes.add(t.entity);o={at:t.at,k:\"cube\",id:t.entity,obj:t.object,x:Math.round(t.x),y:Math.round(t.y),z:t.z==null?void 0:Math.round(t.z),spawned:!!t.spawned}}else if(T===\"object-removed\"){if(!krCubes.delete(t.entity))return;o={at:t.at,k:\"cube-gone\",id:t.entity,used:t.reason===\"used\"}}else if(krCubes.size&&t.at-krMeAt>=400){krMeAt=t.at;let p=globalThis.krPos?.()?.self;if(!p)return;o={at:t.at,k:\"me\",x:p.x,y:p.y,z:p.z,yaw:p.yaw,acc:p.accuracy,lost:!!p.lost||p.accuracy==null&&t.at-p.at>6e4}}else return;if(!krCoFile){let d=krCoPath.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\");krCoFs.mkdirSync(d,{recursive:!0});krCoFile=krCoPath.join(d,\"events.ndjson\");krCoFs.writeFileSync(krCoFile,\"\")}let L=JSON.stringify(o)+\"\\n\";krCoBytes+=L.length;if(krCoBytes>2e7){krCoFs.writeFileSync(krCoFile,\"\");krCoBytes=L.length}krCoFs.appendFileSync(krCoFile,L)}catch{}}${3}krCo(t,${2}),",
-      "applied": "\\{world:([\\w$]+)\\}=[\\w$]+\\.session[\\s\\S]{0,8000}?var krCoFile,[\\s\\S]{0,6000}?for\\(let t of e\\)(?:\\{if\\()?(?:[^,;{}]{0,200},)?[\\w$]+\\.add\\(t\\),krCo\\(t,\\1\\),"
-    },
-    {
-      "id": "kr-callout-boot",
-      "description": "Questlog 안에서 콜아웃 오버레이·음성·설정 창 실행 (Ctrl+Alt+K)",
-      "file": ".output/electron/main.cjs",
-      "find": "(?<!krCalloutBoot\\(\\);)(function [\\w$]+\\(\\)\\{[\\w$]+\\.app\\.on\\(\\\"web-contents-created\\\")",
-      "replace": "function krCalloutBoot(){try{\nconst E=require(\"electron\"),fs=require(\"fs\"),path=require(\"path\");\nconst dir=path.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\"),appDir=path.join(dir,\"app\");const krH={at:0,pid:process.pid,errors:[]};const krHW=()=>{try{fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,\"health.json\"),JSON.stringify(krH))}catch{}};E.app.whenReady().then(()=>{krH.at=Date.now();krHW()});E.app.on(\"web-contents-created\",(_e,wc)=>{try{const on=(a,b,c,d,f)=>{const lv=typeof b===\"number\"?b:a&&a.level,m=String(typeof c===\"string\"?c:a&&a.message),src=String(typeof f===\"string\"?f:(a&&a.sourceId)||\"\");if((lv===3||lv===\"error\")&&/SyntaxError|ReferenceError/.test(m)&&!/^https?:\\/\\//i.test(src)&&krH.errors.length<20){krH.errors.push({at:Date.now(),m:m.slice(0,300),src:src.slice(-80)});krHW()}};wc.on(\"console-message\",on);wc.on(\"render-process-gone\",(_x,d)=>{if(krH.errors.length<20){krH.errors.push({at:Date.now(),m:\"render-process-gone \"+(d&&d.reason)});krHW()}})}catch{}});\nif(!fs.existsSync(path.join(appDir,\"overlay.html\")))return;\nlet ov=null,st=null,editing=false,hotkey=null;\nconst readJ=(f,d)=>{try{return JSON.parse(fs.readFileSync(f,\"utf8\").replace(/^\\uFEFF/,\"\"))}catch{return d}};\nconst wp={nodeIntegration:true,contextIsolation:false,sandbox:false,backgroundThrottling:false,spellcheck:false};\nconst own=w=>w&&!w.isDestroyed();\nfunction guard(w){w.webContents.on(\"will-navigate\",e=>e.preventDefault());w.webContents.setWindowOpenHandler(()=>({action:\"deny\"}))}\nfunction saveBounds(){if(!own(ov))return;try{fs.writeFileSync(path.join(dir,\"overlay.json\"),JSON.stringify(ov.getBounds()))}catch{}}\nfunction openOverlay(){\n if(own(ov))return;\n const b=readJ(path.join(dir,\"overlay.json\"),{}),a=E.screen.getPrimaryDisplay().workArea;\n const w=800,h=220,ok=typeof b.x===\"number\"&&E.screen.getAllDisplays().some(d=>b.x+40>=d.bounds.x&&b.y+20>=d.bounds.y&&b.x+40<d.bounds.x+d.bounds.width&&b.y+20<d.bounds.y+d.bounds.height);\n ov=new E.BrowserWindow({x:ok?b.x:Math.round(a.x+a.width/2-w/2),y:ok?b.y:Math.round(a.y+a.height*0.16),width:w,height:h,transparent:true,backgroundColor:\"#00000000\",frame:false,thickFrame:false,resizable:false,maximizable:false,minimizable:false,fullscreenable:false,skipTaskbar:true,focusable:false,hasShadow:false,alwaysOnTop:true,show:false,title:\"KR callout\",webPreferences:wp});\n guard(ov);ov.setAlwaysOnTop(true,\"screen-saver\");ov.setIgnoreMouseEvents(true);\n ov.loadFile(path.join(appDir,\"overlay.html\"));\n ov.once(\"ready-to-show\",()=>{own(ov)&&ov.showInactive()});\n ov.on(\"moved\",saveBounds);\n ov.on(\"closed\",()=>{ov=null});\n}\nlet krSayN=0;const krSayW=new Map();globalThis.krSay=(text,rate,vol)=>{if(!own(ov)||ov.webContents.isLoading())return null;const id=++krSayN,s=String(text).slice(0,200);return new Promise(res=>{const done=()=>{clearTimeout(t);krSayW.delete(id);res()},t=setTimeout(done,Math.min(15000,2500+s.length*300));krSayW.set(id,done);try{ov.webContents.send(\"kr-co\",{type:\"say\",id,text:s,rate:Math.max(.5,Math.min(2,+rate||1)),volume:Math.max(0,Math.min(1,vol==null?1:+vol))})}catch{done()}})};globalThis.krSayStop=()=>{try{own(ov)&&ov.webContents.send(\"kr-co\",{type:\"say-stop\"})}catch{}for(const f of [...krSayW.values()])f()};E.ipcMain.on(\"kr-co-done\",(e,id)=>{try{if(own(ov)&&e.sender===ov.webContents){const f=krSayW.get(id);f&&f()}}catch{}});let rd=null;function saveRadar(){if(!own(rd))return;try{fs.writeFileSync(path.join(dir,\"radar.json\"),JSON.stringify(rd.getBounds()))}catch{}}function openRadar(){if(own(rd)||!fs.existsSync(path.join(appDir,\"radar.html\")))return;const b=readJ(path.join(dir,\"radar.json\"),{}),a=E.screen.getPrimaryDisplay().workArea,sz=Math.max(120,Math.min(480,+readJ(path.join(dir,\"settings.json\"),{}).radarSize||220));const ok=typeof b.x===\"number\"&&E.screen.getAllDisplays().some(d=>b.x+20>=d.bounds.x&&b.y+20>=d.bounds.y&&b.x+20<d.bounds.x+d.bounds.width&&b.y+20<d.bounds.y+d.bounds.height);rd=new E.BrowserWindow({x:ok?b.x:Math.round(a.x+a.width-sz-40),y:ok?b.y:Math.round(a.y+260),width:sz,height:sz,transparent:true,backgroundColor:\"#00000000\",frame:false,thickFrame:false,resizable:false,maximizable:false,minimizable:false,fullscreenable:false,skipTaskbar:true,focusable:false,hasShadow:false,alwaysOnTop:true,show:false,title:\"KR radar\",webPreferences:wp});guard(rd);rd.setAlwaysOnTop(true,\"screen-saver\");rd.setIgnoreMouseEvents(true);rd.loadFile(path.join(appDir,\"radar.html\"));rd.once(\"ready-to-show\",()=>{own(rd)&&rd.showInactive()});rd.on(\"moved\",saveRadar);rd.on(\"closed\",()=>{rd=null})}E.ipcMain.on(\"kr-radar-say\",(e,s)=>{try{if(own(rd)&&e.sender===rd.webContents&&typeof s===\"string\"&&s.length<=80)globalThis.krSay?.(s,1,1)}catch{}});E.ipcMain.on(\"kr-radar-size\",(e,n)=>{try{if(own(rd)&&e.sender===rd.webContents){const v=Math.max(120,Math.min(480,Math.round(+n||220))),[w,h]=rd.getSize();(w!==v||h!==v)&&(rd.setSize(v,v),saveRadar())}}catch{}});function setEdit(on){editing=!!on;if(own(rd)){rd.setIgnoreMouseEvents(!editing);rd.setFocusable(editing);editing||saveRadar();rd.webContents.send(\"kr-co\",{type:\"edit\",on:editing})}if(!own(ov))return;ov.setIgnoreMouseEvents(!editing);ov.setFocusable(editing);editing||saveBounds();ov.webContents.send(\"kr-co\",{type:\"edit\",on:editing})}\nfunction openSettings(){\n if(own(st)){st.show();st.focus();return}\n st=new E.BrowserWindow({width:1180,height:780,minWidth:900,minHeight:560,title:\"KR 콜아웃 설정\",autoHideMenuBar:true,backgroundColor:\"#0D111B\",webPreferences:wp});\n guard(st);st.removeMenu();st.loadFile(path.join(appDir,\"settings.html\"));\n st.on(\"closed\",()=>{st=null;editing&&setEdit(false)});\n}\nE.ipcMain.on(\"kr-co\",(e,m)=>{try{\n if(!own(st)||e.sender!==st.webContents||e.senderFrame!==st.webContents.mainFrame)return;\n if(!m||typeof m!==\"object\"||JSON.stringify(m).length>2000)return;\n if(m.type===\"test\"&&(typeof m.text!==\"string\"||m.text.length>200))return;\n if(m.type===\"edit\")setEdit(m.on);\n else if((m.type===\"test\"||m.type===\"reload\")&&own(ov))ov.webContents.send(\"kr-co\",m);\n if(m.type===\"reload\"&&own(rd))rd.webContents.send(\"kr-co\",m);\n}catch{}});\nE.app.on(\"second-instance\",(e,argv)=>{Array.isArray(argv)&&argv.includes(\"--kr-callout-settings\")&&E.app.whenReady().then(openSettings)});\nE.app.whenReady().then(()=>{\n if(!E.app.hasSingleInstanceLock())return;\n openOverlay();openRadar();\n hotkey=String(readJ(path.join(dir,\"settings.json\"),{}).hotkey||\"Control+Alt+K\");\n let reg=false;try{reg=E.globalShortcut.register(hotkey,openSettings)}catch{}\n try{fs.writeFileSync(path.join(dir,\"runtime.json\"),JSON.stringify({hotkey,registered:reg,at:Date.now()}))}catch{}\n reg||(hotkey=null);\n process.argv.includes(\"--kr-callout-settings\")&&openSettings();\n});\nE.app.on(\"will-quit\",()=>{try{hotkey&&E.globalShortcut.unregister(hotkey)}catch{}});\n}catch{}}krCalloutBoot();${1}",
-      "applied": "function krCalloutBoot\\(\\)\\{try\\{[\\s\\S]{0,8000}?\\}catch\\{\\}\\}krCalloutBoot\\(\\);function [\\w$]+\\(\\)\\{[\\w$]+\\.app\\.on\\(\\\"web-contents-created\\\""
-    },
-    {
-      "id": "callout-second-instance",
-      "description": "콜아웃 설정 바로가기로 열 때 Questlog 메인 창은 띄우지 않음",
-      "file": ".output/electron/main.cjs",
-      "find": "([\\w$]+)\\.app\\.on\\(\\\"second-instance\\\",([\\w$]+)\\.show\\)",
-      "replace": "${1}.app.on(\"second-instance\",(krE,krA)=>{Array.isArray(krA)&&krA.includes(\"--kr-callout-settings\")||${2}.show()})",
-      "applied": "[\\w$]+\\.app\\.on\\(\\\"second-instance\\\",\\(krE,krA\\)=>\\{Array\\.isArray\\(krA\\)&&krA\\.includes\\(\\\"--kr-callout-settings\\\"\\)\\|\\|[\\w$]+\\.show\\(\\)\\}\\)"
-    },
-    {
-      "id": "kr-voice-korean",
-      "description": "보이스 알림: 한국어 문장은 Windows 한국어 음성으로 읽기",
-      "file": ".output/electron/main.cjs",
-      "onlyIf": "type:\"speak\",id:",
-      "find": "return new Promise\\(\\(([\\w$]+),([\\w$]+)\\)=>\\{([\\w$]+)\\.set\\(([\\w$]+),\\{resolve:\\1,reject:\\2\\}\\),([\\w$]+)\\(\\)\\.postMessage\\(\\{type:\"speak\",id:\\4,text:([\\w$]+),speed:([\\w$]+)\\.voiceSpeed,volume:\\7\\.voiceVolume\\}\\)\\}\\)",
-      "replace": "return (/[가-힣]/.test(${6})&&globalThis.krSay?.(${6},${7}.voiceSpeed,${7}.voiceVolume))||new Promise((${1},${2})=>{${3}.set(${4},{resolve:${1},reject:${2}}),${5}().postMessage({type:\"speak\",id:${4},text:${6},speed:${7}.voiceSpeed,volume:${7}.voiceVolume})})",
-      "applied": "return \\(/\\[가-힣\\]/\\.test\\([\\w$]+\\)&&globalThis\\.krSay\\?\\.\\("
-    },
-    {
-      "id": "kr-voice-stop",
-      "description": "보이스 알림: 끊기 요청을 한국어 음성에도 전달",
-      "file": ".output/electron/main.cjs",
-      "onlyIf": "type:\"speak\",id:",
-      "find": "([\\w$]+)\\.interrupt&&\\(([\\w$]+)\\+\\+,([\\w$]+)\\?\\.postMessage\\(\\{type:\"stop\"\\}\\)\\)",
-      "replace": "${1}.interrupt&&(${2}++,${3}?.postMessage({type:\"stop\"}),globalThis.krSayStop?.())",
-      "applied": "postMessage\\(\\{type:\"stop\"\\}\\),globalThis\\.krSayStop\\?\\.\\(\\)\\)"
-    },
-    {
-      "id": "kr-voice-prepare",
-      "description": "보이스 알림: 한국어 문장은 영어 엔진 미리 만들기에서 제외",
-      "file": ".output/electron/main.cjs",
-      "onlyIf": "type:\"speak\",id:",
-      "find": "let ([\\w$]+)=([\\w$]+)\\.map\\(([\\w$]+)=>\\3\\.trim\\(\\)\\)\\.filter\\(Boolean\\);(\\1\\.length>0&&[\\w$]+\\(\\)\\.postMessage\\(\\{type:\"prepare\")",
-      "replace": "let ${1}=${2}.map(${3}=>${3}.trim()).filter(Boolean).filter(${3}=>!(globalThis.krSay&&/[가-힣]/.test(${3})));${4}",
-      "applied": "\\.filter\\(Boolean\\)\\.filter\\([\\w$]+=>!\\(globalThis\\.krSay&&/"
-    },
-    {
-      "id": "kr-cube-facing",
-      "description": "히든큐브: 내 캐릭터가 바라보는 방향 기억",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "(function [\\w$]+\\([\\w$]+\\)\\{let ([\\w$]+)=new Map,[\\w$]+;return\\{add:([\\w$]+)=>\\{switch\\(\\3\\.type\\)\\{)(case\"map\":\\{let [\\w$]+=\\2\\.size>0;)",
-      "replace": "${1}case\"facing\":return ${2}.krYaw={yaw:${3}.yaw,at:${3}.at},!1;${4}",
-      "applied": "switch\\([\\w$]+\\.type\\)\\{case\"facing\":return [\\w$]+\\.krYaw=\\{yaw:"
-    },
-    {
-      "id": "kr-cube-bearing",
-      "description": "히든큐브: 방위(북쪽 기준)와 내 시선 방향 계산",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "(state:\\(([\\w$]+),[\\w$]+\\)=>\\{let ([\\w$]+)=[\\w$]+&&\\2-[\\w$]+\\.at<[\\w$]+\\?[\\w$]+:void 0,[\\w$]+=\\[\\];for\\(let\\[[\\w$]+,([\\w$]+)\\]of ([\\w$]+)\\)[\\s\\S]{0,900}?rise:\\3\\?\\.z===void 0\\?void 0:Math\\.round\\(\\(\\4\\.z-\\3\\.z\\)/100\\))\\}\\)",
-      "replace": "${1},krBearing:${3}?Math.round(Math.atan2(${4}.x-${3}.x,${3}.y-${4}.y)*180/Math.PI):void 0,krHeading:${5}.krYaw&&${2}-${5}.krYaw.at<6e4?Math.round(Math.atan2(Math.cos(${5}.krYaw.yaw*Math.PI/180),-Math.sin(${5}.krYaw.yaw*Math.PI/180))*180/Math.PI):void 0})",
-      "applied": ",krBearing:[\\w$]+\\?Math\\.round\\(Math\\.atan2\\("
-    },
-    {
-      "id": "kr-radar-pos",
-      "description": "레이더: 퀘로그 지도의 내 위치 추정값을 콜아웃 기록에서 쓸 수 있게",
-      "file": ".output/electron/workers/aion-2/combat.cjs",
-      "find": "([\\w$]+)=([\\w$]+)\\(\\(\\)=>([\\w$]+)\\.positions\\(\\)\\)(?=,)",
-      "replace": "${1}=${2}(()=>(globalThis.krPos=()=>${3}.positions(),${3}.positions()))",
-      "applied": "\\(globalThis\\.krPos=\\(\\)=>[\\w$]+\\.positions\\(\\),"
-    }
-  ]
+  {
+   "id": "equip-extra-bool",
+   "description": "장비 정보 끝(fxBit 앞)에서 불리언 하나를 추가로 읽음",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(override:([\\w$]+)\\.bool\\(\\),)(fxBit:\\2\\.vi32\\(\\))",
+   "replace": "${1}unknownKrFlag:${2}.bool(),${3}",
+   "applied": "override:([\\w$]+)\\.bool\\(\\),unknownKrFlag:\\1\\.bool\\(\\),fxBit:\\1\\.vi32\\(\\)"
+  },
+  {
+   "id": "party-confirmation-cache",
+   "description": "15초 만료 파티원 확인 캐시",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(function [\\w$]+\\(([\\w$]+)\\)\\{)(let (?:[\\w$]+=new Map,){8}[\\w$]+=new Set,(?:[\\w$]+,)?[\\w$]+=\\2\\.selfName)",
+   "replace": "${1}let krPartySeen=new Map,krPartyNow=0,krRosterIds=new Set;function krRecent(id){return krPartySeen.has(id)&&krPartyNow-krPartySeen.get(id)<=15000}${3}",
+   "applied": "function [\\w$]+\\([\\w$]+\\)\\{let krPartySeen=new Map,krPartyNow=0,krRosterIds=new Set;function krRecent\\(id\\)\\{return krPartySeen\\.has\\(id\\)&&krPartyNow-krPartySeen\\.get\\(id\\)<=15000\\}let [\\w$]+=new Map,"
+  },
+  {
+   "id": "party-confirmation-events",
+   "description": "상태 갱신으로 파티원 확인 및 지역 이동 시 초기화",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "function ([\\w$]+)\\(([\\w$]+)\\)\\{switch\\(([\\w$]+)=void 0,\\2\\.type\\)\\{case\"map\":([\\w$]+)\\.clear\\(\\)",
+   "replace": "function ${1}(${2}){krPartyNow=Math.max(krPartyNow,${2}.at??0);switch(${3}=void 0,${2}.type){case\"party-member-seen\":krPartySeen.set(${2}.id,${2}.at);for(let[id,at]of krPartySeen)if(krPartyNow-at>15000)krPartySeen.delete(id);break;case\"map\":krPartySeen.clear(),${4}.clear()",
+   "applied": "function [\\w$]+\\(([\\w$]+)\\)\\{krPartyNow=Math\\.max\\(krPartyNow,\\1\\.at\\?\\?0\\);switch\\([\\w$]+=void 0,\\1\\.type\\)\\{case\"party-member-seen\":krPartySeen\\.set\\(\\1\\.id,\\1\\.at\\);for\\(let\\[id,at\\]of krPartySeen\\)if\\(krPartyNow-at>15000\\)krPartySeen\\.delete\\(id\\);break;case\"map\":krPartySeen\\.clear\\(\\),[\\w$]+\\.clear\\(\\)"
+  },
+  {
+   "id": "party-confirmation-roster-reset",
+   "description": "전체 명단 수신 시 보조 확인 초기화",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "case\"roster\":for\\(let ([\\w$]+) of ([\\w$]+)\\.members\\)\\1\\.entity!==0",
+   "replace": "case\"roster\":krPartySeen.clear();krRosterIds=new Set(${2}.members.map(m=>m.id));for(let ${1} of ${2}.members)${1}.entity!==0",
+   "applied": "case\"roster\":krPartySeen\\.clear\\(\\);krRosterIds=new Set\\(([\\w$]+)\\.members\\.map\\(m=>m\\.id\\)\\);for\\(let ([\\w$]+) of \\1\\.members\\)\\2\\.entity!==0"
+  },
+  {
+   "id": "party-confirmation-leave-reset",
+   "description": "탈퇴 시 보조 확인 초기화",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "case\"party-left\":([\\w$]+)=new Set;break;",
+   "replace": "case\"party-left\":krPartySeen.clear(),krRosterIds=new Set,${1}=new Set;break;",
+   "applied": "case\"party\\-left\":krPartySeen\\.clear\\(\\),krRosterIds=new Set,[\\w$]+=new Set;break;"
+  },
+  {
+   "id": "party-membership-recovery",
+   "description": "캐릭터 ID로 누락된 파티원 집계 복구",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "([\\w$]+)\\.get\\(([\\w$]+)\\);return \\2===([\\w$]+)\\|\\|([\\w$]+)!==void 0&&([\\w$]+)\\.has\\(([\\w$]+)\\(\\4\\)\\)\\},get self\\(\\)",
+   "replace": "${1}.get(${2});return ${2}===${3}||${4}!==void 0&&(${5}.has(${6}(${4}))||krRosterIds.has(${4}.id)||krRecent(${4}.id))},isPartyMemberId:id=>krRecent(id)||krRosterIds.has(id)||[...${1}].some(([entity,p])=>p.id===id&&(entity===${3}||${5}.has(${6}(p)))),get self()",
+   "applied": "return ([\\w$]+)===([\\w$]+)\\|\\|([\\w$]+)!==void 0&&\\(([\\w$]+)\\.has\\(([\\w$]+)\\(\\3\\)\\)\\|\\|krRosterIds\\.has\\(\\3\\.id\\)\\|\\|krRecent\\(\\3\\.id\\)\\)\\},isPartyMemberId:id=>krRecent\\(id\\)\\|\\|krRosterIds\\.has\\(id\\)\\|\\|\\[\\.\\.\\.[\\w$]+\\]\\.some\\(\\(\\[entity,p\\]\\)=>p\\.id===id&&\\(entity===\\2\\|\\|\\4\\.has\\(\\5\\(p\\)\\)\\)\\),get self\\(\\)"
+  },
+  {
+   "id": "party-status-confirmation",
+   "description": "파티·포스 상태 패킷에서 파티원 확인 전달",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "return!([\\w$]+)\\|\\|\\1\\.level===([\\w$]+)\\.level&&\\1\\.gearScore===\\2\\.gearScore&&\\1\\.combatPower===\\2\\.combatPower&&\\1\\.legion===\\2\\.legion\\?\\[\\]:\\(([\\w$]+)\\.set\\(([\\w$]+)\\.data\\.dbid,\\{\\.\\.\\.\\1,\\.\\.\\.\\2\\}\\),\\[([\\w$]+)\\(\"player-update\",\\{at:([\\w$]+),entity:\\1\\.entity,\\.\\.\\.\\2\\}\\)\\]\\)",
+   "replace": "return[${5}(\"party-member-seen\",{at:${6},id:String(${4}.data.dbid)}),...(!${1}||${1}.level===${2}.level&&${1}.gearScore===${2}.gearScore&&${1}.combatPower===${2}.combatPower&&${1}.legion===${2}.legion?[]:(${3}.set(${4}.data.dbid,{...${1},...${2}}),[${5}(\"player-update\",{at:${6},entity:${1}.entity,...${2}})]))]",
+   "applied": "return\\[([\\w$]+)\\(\"party-member-seen\",\\{at:([\\w$]+),id:String\\(([\\w$]+)\\.data\\.dbid\\)\\}\\),\\.\\.\\.\\(!([\\w$]+)\\|\\|"
+  },
+  {
+   "id": "party-ready-display",
+   "description": "전원 파티 확인 시 오래된 모집 준비 표시 숨김",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "!([\\w$]+)\\|\\|\\1\\.members\\.length<=([\\w$]+)\\|\\|!\\1\\.members\\.some\\(([\\w$]+)\\)\\)return null;(?=let [\\w$]+=\\1\\.leader,[\\w$]+=([\\w$]+)\\.self===void 0)",
+   "replace": "!${1}||${1}.members.length<=${2}||!${1}.members.some(${3})||${1}.members.every(p=>${4}.isPartyMemberId(p.id)))return null;",
+   "applied": "\\.members\\.every\\(p=>[\\w$]+\\.isPartyMemberId\\(p\\.id\\)\\)\\)return null;"
+  },
+  {
+   "id": "kr-server-regions",
+   "description": "한국 42개 서버 알림 지역 추가",
+   "file": ".output/electron/main.cjs",
+   "find": "(?:tw:\\{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"\\}\\}|tw:\\{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"\\},\"kr-vaizel\":\\{label:\"한국 바이젤\",client:\"kr\",timeZone:\"Asia/Seoul\"\\}\\})",
+   "replace": "tw:{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"},\"kr-server-시엘\":{\"label\":\"한국 시엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-이스라펠\":{\"label\":\"한국 이스라펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네자칸\":{\"label\":\"한국 네자칸\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루드라\":{\"label\":\"한국 루드라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바이젤\":{\"label\":\"한국 바이젤\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아스펠\":{\"label\":\"한국 아스펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-트리니엘\":{\"label\":\"한국 트리니엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-네몬\":{\"label\":\"한국 네몬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-카이시넬\":{\"label\":\"한국 카이시넬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-바바룽\":{\"label\":\"한국 바바룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-유스티엘\":{\"label\":\"한국 유스티엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-바카르마\":{\"label\":\"한국 바카르마\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-아리엘\":{\"label\":\"한국 아리엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-마르쿠탄\":{\"label\":\"한국 마르쿠탄\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-에레슈키갈\":{\"label\":\"한국 에레슈키갈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-루미엘\":{\"label\":\"한국 루미엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-프레기온\":{\"label\":\"한국 프레기온\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이스할겐\":{\"label\":\"한국 이스할겐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-히타니에\":{\"label\":\"한국 히타니에\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-루터스\":{\"label\":\"한국 루터스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-나니아\":{\"label\":\"한국 나니아\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-무닌\":{\"label\":\"한국 무닌\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-하달\":{\"label\":\"한국 하달\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-파프니르\":{\"label\":\"한국 파프니르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-타하바타\":{\"label\":\"한국 타하바타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-코치룽\":{\"label\":\"한국 코치룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-페르노스\":{\"label\":\"한국 페르노스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-메스람타에다\":{\"label\":\"한국 메스람타에다\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-다미누\":{\"label\":\"한국 다미누\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-오다르\":{\"label\":\"한국 오다르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-카사카\":{\"label\":\"한국 카사카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-브리트라\":{\"label\":\"한국 브리트라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-젠카카\":{\"label\":\"한국 젠카카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-울고른\":{\"label\":\"한국 울고른\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-챈가룽\":{\"label\":\"한국 챈가룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-인드나흐\":{\"label\":\"한국 인드나흐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-이슈타르\":{\"label\":\"한국 이슈타르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-지켈\":{\"label\":\"한국 지켈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0},\"kr-server-티아마트\":{\"label\":\"한국 티아마트\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-크로메데\":{\"label\":\"한국 크로메데\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1},\"kr-server-포에타\":{\"label\":\"한국 포에타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-server-콰이링\":{\"label\":\"한국 콰이링\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2},\"kr-vaizel\":{\"label\":\"한국 바이젤 (이전 설정)\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2}}",
+   "applied": "tw:\\{label:\"Taiwan\",client:\"tw\",timeZone:\"Asia/Taipei\"\\},\"kr-server-시엘\":\\{\"label\":\"한국 시엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-이스라펠\":\\{\"label\":\"한국 이스라펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-네자칸\":\\{\"label\":\"한국 네자칸\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-루드라\":\\{\"label\":\"한국 루드라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-바이젤\":\\{\"label\":\"한국 바이젤\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-아스펠\":\\{\"label\":\"한국 아스펠\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-트리니엘\":\\{\"label\":\"한국 트리니엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-네몬\":\\{\"label\":\"한국 네몬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-카이시넬\":\\{\"label\":\"한국 카이시넬\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-바바룽\":\\{\"label\":\"한국 바바룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-유스티엘\":\\{\"label\":\"한국 유스티엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-바카르마\":\\{\"label\":\"한국 바카르마\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-아리엘\":\\{\"label\":\"한국 아리엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-마르쿠탄\":\\{\"label\":\"한국 마르쿠탄\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-에레슈키갈\":\\{\"label\":\"한국 에레슈키갈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-루미엘\":\\{\"label\":\"한국 루미엘\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-프레기온\":\\{\"label\":\"한국 프레기온\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-이스할겐\":\\{\"label\":\"한국 이스할겐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-히타니에\":\\{\"label\":\"한국 히타니에\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-루터스\":\\{\"label\":\"한국 루터스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-나니아\":\\{\"label\":\"한국 나니아\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-무닌\":\\{\"label\":\"한국 무닌\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-하달\":\\{\"label\":\"한국 하달\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-파프니르\":\\{\"label\":\"한국 파프니르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-타하바타\":\\{\"label\":\"한국 타하바타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-코치룽\":\\{\"label\":\"한국 코치룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-페르노스\":\\{\"label\":\"한국 페르노스\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-메스람타에다\":\\{\"label\":\"한국 메스람타에다\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-다미누\":\\{\"label\":\"한국 다미누\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-오다르\":\\{\"label\":\"한국 오다르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-카사카\":\\{\"label\":\"한국 카사카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-브리트라\":\\{\"label\":\"한국 브리트라\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-젠카카\":\\{\"label\":\"한국 젠카카\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-울고른\":\\{\"label\":\"한국 울고른\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-챈가룽\":\\{\"label\":\"한국 챈가룽\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-인드나흐\":\\{\"label\":\"한국 인드나흐\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-이슈타르\":\\{\"label\":\"한국 이슈타르\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-지켈\":\\{\"label\":\"한국 지켈\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":0\\},\"kr-server-티아마트\":\\{\"label\":\"한국 티아마트\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-크로메데\":\\{\"label\":\"한국 크로메데\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":1\\},\"kr-server-포에타\":\\{\"label\":\"한국 포에타\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-server-콰이링\":\\{\"label\":\"한국 콰이링\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\},\"kr-vaizel\":\\{\"label\":\"한국 바이젤 \\(이전 설정\\)\",\"client\":\"kr\",\"timeZone\":\"Asia/Seoul\",\"krGroup\":2\\}\\}"
+  },
+  {
+   "id": "kr-server-times",
+   "description": "한국 서버별 어비스 시간표 적용 (2026-10-21)",
+   "file": ".output/electron/main.cjs",
+   "find": "function ([\\w$]+)\\(([\\w$]+),([\\w$]+)\\)\\{return ([\\w$]+)\\[([\\w$]+)\\[\\2\\]\\.client\\]\\[\\3\\]\\}",
+   "replace": "function ${1}(${2},${3}){let s=${4}[${5}[${2}].client][${3}],g=${5}[${2}].krGroup;return g!==void 0&&[\"artifact-siege\",\"siege-bosses\",\"guardian-lord-nahma\"].includes(${3})?{...s,times:[s.times[g]]}:s}",
+   "applied": "function [\\w$]+\\(([\\w$]+),([\\w$]+)\\)\\{let s=[\\w$]+\\[([\\w$]+)\\[\\1\\]\\.client\\]\\[\\2\\],g=\\3\\[\\1\\]\\.krGroup;return g!==void 0&&\\[\"artifact-siege\",\"siege-bosses\",\"guardian-lord-nahma\"\\]\\.includes\\(\\2\\)\\?\\{\\.\\.\\.s,times:\\[s\\.times\\[g\\]\\]\\}:s\\}"
+  },
+  {
+   "id": "overlay-transparent-window",
+   "description": "오버레이 자식 창 투명 배경 명시",
+   "file": ".output/electron/main.cjs",
+   "find": "var ([\\w$]+)=\\{transparent:!0,frame:!1",
+   "replace": "var ${1}={transparent:!0,backgroundColor:\"#00000000\",frame:!1",
+   "applied": "var [\\w$]+=\\{transparent:!0,backgroundColor:\"#00000000\",frame:!1"
+  },
+  {
+   "id": "sticky-topmost-refresh",
+   "description": "핀 창 표시 시 최상위 속성 재확인",
+   "file": ".output/electron/main.cjs",
+   "find": "let ([\\w$]+)=([\\w$]+)\\.get\\(([\\w$]+)\\);(?!\\1\\?\\.ready&&!\\1\\.window\\.isDestroyed)(?=(?:[^;]{0,300}?,)?[\\w$]+&&\\1\\?\\.window\\.isVisible\\(\\)\\?)",
+   "replace": "let ${1}=${2}.get(${3});${1}?.ready&&!${1}.window.isDestroyed()&&!${1}.window.isAlwaysOnTop()&&${1}.window.setAlwaysOnTop(!0,\"screen-saver\");",
+   "applied": "let ([\\w$]+)=[\\w$]+\\.get\\(([\\w$]+)\\);\\1\\?\\.ready&&!\\1\\.window\\.isDestroyed\\(\\)&&!\\1\\.window\\.isAlwaysOnTop\\(\\)&&\\1\\.window\\.setAlwaysOnTop\\(!0,\"screen-saver\"\\);"
+  },
+  {
+   "id": "kr-callout-export",
+   "description": "보스 패턴 이벤트를 콜아웃용으로 기록 (KR 콜아웃)",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(\\{world:([\\w$]+)\\}=[\\w$]+\\.session[\\s\\S]{0,8000}?)(function [\\w$]+\\(e\\)\\{if\\(!\\(!e\\|\\|e\\.length===0\\)\\)\\{for\\(let t of e\\)(?:\\{if\\()?(?:[^,;{}]{0,200},)?[\\w$]+\\.add\\(t\\),)(?!krCo\\()",
+   "replace": "${1}var krCoFile,krCoBytes=0,krCoFs=require(\"fs\"),krCoPath=require(\"path\");try{let krWd=krCoPath.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\");krCoFs.mkdirSync(krWd,{recursive:!0});krCoFs.writeFileSync(krCoPath.join(krWd,\"worker.json\"),JSON.stringify({at:Date.now(),pid:process.pid}))}catch{}var krCubeIds=new Set([1200036,1200037,1200039,1200040,1200041,1200667,1201502,1201503,1201504,1201505,1300081,1300082,1300754,1301199,1301200,1301242,1301243,1301244,1301245]),krCubes=new Set,krMeAt=0;function krCo(t,W){try{let T=t.type,o,g;if(T===\"cast-begin\"||T===\"telegraph\"){if(W.isPlayer(W.ownerOf(t.entity)))return;let n=W.npcOf(t.entity)?.npc;if(!n)return;g=t.target;o={at:t.at,k:T,npc:n,id:t.skill,ms:t.castMs??t.durationMs,self:g!==void 0&&g===W.self,tgt:g!==void 0&&W.isPlayer(g)?W.describePlayer(g).name:void 0}}else if(T===\"buff\"){if(t.caster===void 0||W.isPlayer(W.ownerOf(t.caster))||!W.isPlayer(t.target))return;if(t.target!==W.self&&!W.inParty(t.target))return;o={at:t.at,k:T,npc:W.npcOf(t.caster)?.npc,id:t.buff,self:t.target===W.self,tgt:W.describePlayer(t.target).name}}else if(T===\"map\"){krCubes.clear();o={at:t.at,k:T}}else if(T===\"object\"){if(!krCubeIds.has(t.object))return;krCubes.add(t.entity);o={at:t.at,k:\"cube\",id:t.entity,obj:t.object,x:Math.round(t.x),y:Math.round(t.y),z:t.z==null?void 0:Math.round(t.z),spawned:!!t.spawned}}else if(T===\"object-removed\"){if(!krCubes.delete(t.entity))return;o={at:t.at,k:\"cube-gone\",id:t.entity,used:t.reason===\"used\"}}else if(krCubes.size&&t.at-krMeAt>=400){krMeAt=t.at;let p=globalThis.krPos?.()?.self;if(!p)return;o={at:t.at,k:\"me\",x:p.x,y:p.y,z:p.z,yaw:p.yaw,acc:p.accuracy,lost:!!p.lost||p.accuracy==null&&t.at-p.at>6e4}}else return;if(!krCoFile){let d=krCoPath.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\");krCoFs.mkdirSync(d,{recursive:!0});krCoFile=krCoPath.join(d,\"events.ndjson\");krCoFs.writeFileSync(krCoFile,\"\")}let L=JSON.stringify(o)+\"\\n\";krCoBytes+=L.length;if(krCoBytes>2e7){krCoFs.writeFileSync(krCoFile,\"\");krCoBytes=L.length}krCoFs.appendFileSync(krCoFile,L)}catch{}}${3}krCo(t,${2}),",
+   "applied": "\\{world:([\\w$]+)\\}=[\\w$]+\\.session[\\s\\S]{0,8000}?var krCoFile,[\\s\\S]{0,6000}?for\\(let t of e\\)(?:\\{if\\()?(?:[^,;{}]{0,200},)?[\\w$]+\\.add\\(t\\),krCo\\(t,\\1\\),"
+  },
+  {
+   "id": "kr-callout-boot",
+   "description": "Questlog 안에서 콜아웃 오버레이·음성·설정 창 실행 (Ctrl+Alt+K)",
+   "file": ".output/electron/main.cjs",
+   "find": "(?<!krCalloutBoot\\(\\);)(function [\\w$]+\\(\\)\\{[\\w$]+\\.app\\.on\\(\\\"web-contents-created\\\")",
+   "replace": "function krCalloutBoot(){try{\nconst E=require(\"electron\"),fs=require(\"fs\"),path=require(\"path\");\nconst dir=path.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\"),appDir=path.join(dir,\"app\");const krH={at:0,pid:process.pid,errors:[]};const krHW=()=>{try{fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,\"health.json\"),JSON.stringify(krH))}catch{}};E.app.whenReady().then(()=>{krH.at=Date.now();krHW()});E.app.on(\"web-contents-created\",(_e,wc)=>{try{const on=(a,b,c,d,f)=>{const lv=typeof b===\"number\"?b:a&&a.level,m=String(typeof c===\"string\"?c:a&&a.message),src=String(typeof f===\"string\"?f:(a&&a.sourceId)||\"\");if((lv===3||lv===\"error\")&&/SyntaxError|ReferenceError/.test(m)&&!/^https?:\\/\\//i.test(src)&&krH.errors.length<20){krH.errors.push({at:Date.now(),m:m.slice(0,300),src:src.slice(-80)});krHW()}};wc.on(\"console-message\",on);wc.on(\"render-process-gone\",(_x,d)=>{if(krH.errors.length<20){krH.errors.push({at:Date.now(),m:\"render-process-gone \"+(d&&d.reason)});krHW()}})}catch{}});\nif(!fs.existsSync(path.join(appDir,\"overlay.html\")))return;\nlet ov=null,st=null,editing=false,hotkey=null;\nconst readJ=(f,d)=>{try{return JSON.parse(fs.readFileSync(f,\"utf8\").replace(/^\\uFEFF/,\"\"))}catch{return d}};\nconst wp={nodeIntegration:true,contextIsolation:false,sandbox:false,backgroundThrottling:false,spellcheck:false};\nconst own=w=>w&&!w.isDestroyed();\nfunction guard(w){w.webContents.on(\"will-navigate\",e=>e.preventDefault());w.webContents.setWindowOpenHandler(()=>({action:\"deny\"}))}\nfunction saveBounds(){if(!own(ov))return;try{fs.writeFileSync(path.join(dir,\"overlay.json\"),JSON.stringify(ov.getBounds()))}catch{}}\nfunction openOverlay(){\n if(own(ov))return;\n const b=readJ(path.join(dir,\"overlay.json\"),{}),a=E.screen.getPrimaryDisplay().workArea;\n const w=800,h=220,ok=typeof b.x===\"number\"&&E.screen.getAllDisplays().some(d=>b.x+40>=d.bounds.x&&b.y+20>=d.bounds.y&&b.x+40<d.bounds.x+d.bounds.width&&b.y+20<d.bounds.y+d.bounds.height);\n ov=new E.BrowserWindow({x:ok?b.x:Math.round(a.x+a.width/2-w/2),y:ok?b.y:Math.round(a.y+a.height*0.16),width:w,height:h,transparent:true,backgroundColor:\"#00000000\",frame:false,thickFrame:false,resizable:false,maximizable:false,minimizable:false,fullscreenable:false,skipTaskbar:true,focusable:false,hasShadow:false,alwaysOnTop:true,show:false,title:\"KR callout\",webPreferences:wp});\n guard(ov);ov.setAlwaysOnTop(true,\"screen-saver\");ov.setIgnoreMouseEvents(true);\n ov.loadFile(path.join(appDir,\"overlay.html\"));\n ov.once(\"ready-to-show\",()=>{own(ov)&&ov.showInactive()});\n ov.on(\"moved\",saveBounds);\n ov.on(\"closed\",()=>{ov=null});\n}\nlet krSayN=0;const krSayW=new Map();globalThis.krSay=(text,rate,vol)=>{if(!own(ov)||ov.webContents.isLoading())return null;const id=++krSayN,s=String(text).slice(0,200);return new Promise(res=>{const done=()=>{clearTimeout(t);krSayW.delete(id);res()},t=setTimeout(done,Math.min(15000,2500+s.length*300));krSayW.set(id,done);try{ov.webContents.send(\"kr-co\",{type:\"say\",id,text:s,rate:Math.max(.5,Math.min(2,+rate||1)),volume:Math.max(0,Math.min(1,vol==null?1:+vol))})}catch{done()}})};globalThis.krSayStop=()=>{try{own(ov)&&ov.webContents.send(\"kr-co\",{type:\"say-stop\"})}catch{}for(const f of [...krSayW.values()])f()};E.ipcMain.on(\"kr-co-done\",(e,id)=>{try{if(own(ov)&&e.sender===ov.webContents){const f=krSayW.get(id);f&&f()}}catch{}});let rd=null;function saveRadar(){if(!own(rd))return;try{fs.writeFileSync(path.join(dir,\"radar.json\"),JSON.stringify(rd.getBounds()))}catch{}}function openRadar(){if(own(rd)||!fs.existsSync(path.join(appDir,\"radar.html\")))return;const b=readJ(path.join(dir,\"radar.json\"),{}),a=E.screen.getPrimaryDisplay().workArea,sz=Math.max(120,Math.min(480,+readJ(path.join(dir,\"settings.json\"),{}).radarSize||220));const ok=typeof b.x===\"number\"&&E.screen.getAllDisplays().some(d=>b.x+20>=d.bounds.x&&b.y+20>=d.bounds.y&&b.x+20<d.bounds.x+d.bounds.width&&b.y+20<d.bounds.y+d.bounds.height);rd=new E.BrowserWindow({x:ok?b.x:Math.round(a.x+a.width-sz-40),y:ok?b.y:Math.round(a.y+260),width:sz,height:sz,transparent:true,backgroundColor:\"#00000000\",frame:false,thickFrame:false,resizable:false,maximizable:false,minimizable:false,fullscreenable:false,skipTaskbar:true,focusable:false,hasShadow:false,alwaysOnTop:true,show:false,title:\"KR radar\",webPreferences:wp});guard(rd);rd.setAlwaysOnTop(true,\"screen-saver\");rd.setIgnoreMouseEvents(true);rd.loadFile(path.join(appDir,\"radar.html\"));rd.once(\"ready-to-show\",()=>{own(rd)&&rd.showInactive()});rd.on(\"moved\",saveRadar);rd.on(\"closed\",()=>{rd=null})}E.ipcMain.on(\"kr-radar-say\",(e,s)=>{try{if(own(rd)&&e.sender===rd.webContents&&typeof s===\"string\"&&s.length<=80)globalThis.krSay?.(s,1,1)}catch{}});E.ipcMain.on(\"kr-radar-size\",(e,n)=>{try{if(own(rd)&&e.sender===rd.webContents){const v=Math.max(120,Math.min(480,Math.round(+n||220))),[w,h]=rd.getSize();(w!==v||h!==v)&&(rd.setSize(v,v),saveRadar())}}catch{}});function setEdit(on){editing=!!on;if(own(rd)){rd.setIgnoreMouseEvents(!editing);rd.setFocusable(editing);editing||saveRadar();rd.webContents.send(\"kr-co\",{type:\"edit\",on:editing})}if(!own(ov))return;ov.setIgnoreMouseEvents(!editing);ov.setFocusable(editing);editing||saveBounds();ov.webContents.send(\"kr-co\",{type:\"edit\",on:editing})}\nfunction openSettings(){\n if(own(st)){st.show();st.focus();return}\n st=new E.BrowserWindow({width:1180,height:780,minWidth:900,minHeight:560,title:\"KR 콜아웃 설정\",autoHideMenuBar:true,backgroundColor:\"#0D111B\",webPreferences:wp});\n guard(st);st.removeMenu();st.loadFile(path.join(appDir,\"settings.html\"));\n st.on(\"closed\",()=>{st=null;editing&&setEdit(false)});\n}\nE.ipcMain.on(\"kr-co\",(e,m)=>{try{\n if(!own(st)||e.sender!==st.webContents||e.senderFrame!==st.webContents.mainFrame)return;\n if(!m||typeof m!==\"object\"||JSON.stringify(m).length>2000)return;\n if(m.type===\"test\"&&(typeof m.text!==\"string\"||m.text.length>200))return;\n if(m.type===\"edit\")setEdit(m.on);\n else if((m.type===\"test\"||m.type===\"reload\")&&own(ov))ov.webContents.send(\"kr-co\",m);\n if(m.type===\"reload\"&&own(rd))rd.webContents.send(\"kr-co\",m);\n}catch{}});\nE.app.on(\"second-instance\",(e,argv)=>{Array.isArray(argv)&&argv.includes(\"--kr-callout-settings\")&&E.app.whenReady().then(openSettings)});\nE.app.whenReady().then(()=>{\n if(!E.app.hasSingleInstanceLock())return;\n openOverlay();openRadar();\n hotkey=String(readJ(path.join(dir,\"settings.json\"),{}).hotkey||\"Control+Alt+K\");\n let reg=false;try{reg=E.globalShortcut.register(hotkey,openSettings)}catch{}\n try{fs.writeFileSync(path.join(dir,\"runtime.json\"),JSON.stringify({hotkey,registered:reg,at:Date.now()}))}catch{}\n reg||(hotkey=null);\n process.argv.includes(\"--kr-callout-settings\")&&openSettings();\n});\nE.app.on(\"will-quit\",()=>{try{hotkey&&E.globalShortcut.unregister(hotkey)}catch{}});\n}catch{}}krCalloutBoot();${1}",
+   "applied": "function krCalloutBoot\\(\\)\\{try\\{[\\s\\S]{0,8000}?\\}catch\\{\\}\\}krCalloutBoot\\(\\);function [\\w$]+\\(\\)\\{[\\w$]+\\.app\\.on\\(\\\"web-contents-created\\\""
+  },
+  {
+   "id": "callout-second-instance",
+   "description": "콜아웃 설정 바로가기로 열 때 Questlog 메인 창은 띄우지 않음",
+   "file": ".output/electron/main.cjs",
+   "find": "([\\w$]+)\\.app\\.on\\(\\\"second-instance\\\",([\\w$]+)\\.show\\)",
+   "replace": "${1}.app.on(\"second-instance\",(krE,krA)=>{Array.isArray(krA)&&krA.includes(\"--kr-callout-settings\")||${2}.show()})",
+   "applied": "[\\w$]+\\.app\\.on\\(\\\"second-instance\\\",\\(krE,krA\\)=>\\{Array\\.isArray\\(krA\\)&&krA\\.includes\\(\\\"--kr-callout-settings\\\"\\)\\|\\|[\\w$]+\\.show\\(\\)\\}\\)"
+  },
+  {
+   "id": "kr-voice-korean",
+   "description": "보이스 알림: 한국어 문장은 Windows 한국어 음성으로 읽기",
+   "file": ".output/electron/main.cjs",
+   "onlyIf": "type:\"speak\",id:",
+   "find": "return new Promise\\(\\(([\\w$]+),([\\w$]+)\\)=>\\{([\\w$]+)\\.set\\(([\\w$]+),\\{resolve:\\1,reject:\\2\\}\\),([\\w$]+)\\(\\)\\.postMessage\\(\\{type:\"speak\",id:\\4,text:([\\w$]+),speed:([\\w$]+)\\.voiceSpeed,volume:\\7\\.voiceVolume\\}\\)\\}\\)",
+   "replace": "return (/[가-힣]/.test(${6})&&globalThis.krSay?.(${6},${7}.voiceSpeed,${7}.voiceVolume))||new Promise((${1},${2})=>{${3}.set(${4},{resolve:${1},reject:${2}}),${5}().postMessage({type:\"speak\",id:${4},text:${6},speed:${7}.voiceSpeed,volume:${7}.voiceVolume})})",
+   "applied": "return \\(/\\[가-힣\\]/\\.test\\([\\w$]+\\)&&globalThis\\.krSay\\?\\.\\("
+  },
+  {
+   "id": "kr-voice-stop",
+   "description": "보이스 알림: 끊기 요청을 한국어 음성에도 전달",
+   "file": ".output/electron/main.cjs",
+   "onlyIf": "type:\"speak\",id:",
+   "find": "([\\w$]+)\\.interrupt&&\\(([\\w$]+)\\+\\+,([\\w$]+)\\?\\.postMessage\\(\\{type:\"stop\"\\}\\)\\)",
+   "replace": "${1}.interrupt&&(${2}++,${3}?.postMessage({type:\"stop\"}),globalThis.krSayStop?.())",
+   "applied": "postMessage\\(\\{type:\"stop\"\\}\\),globalThis\\.krSayStop\\?\\.\\(\\)\\)"
+  },
+  {
+   "id": "kr-voice-prepare",
+   "description": "보이스 알림: 한국어 문장은 영어 엔진 미리 만들기에서 제외",
+   "file": ".output/electron/main.cjs",
+   "onlyIf": "type:\"speak\",id:",
+   "find": "let ([\\w$]+)=([\\w$]+)\\.map\\(([\\w$]+)=>\\3\\.trim\\(\\)\\)\\.filter\\(Boolean\\);(\\1\\.length>0&&[\\w$]+\\(\\)\\.postMessage\\(\\{type:\"prepare\")",
+   "replace": "let ${1}=${2}.map(${3}=>${3}.trim()).filter(Boolean).filter(${3}=>!(globalThis.krSay&&/[가-힣]/.test(${3})));${4}",
+   "applied": "\\.filter\\(Boolean\\)\\.filter\\([\\w$]+=>!\\(globalThis\\.krSay&&/"
+  },
+  {
+   "id": "kr-cube-facing",
+   "description": "히든큐브: 내 캐릭터가 바라보는 방향 기억",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(function [\\w$]+\\([\\w$]+\\)\\{let ([\\w$]+)=new Map,[\\w$]+;return\\{add:([\\w$]+)=>\\{switch\\(\\3\\.type\\)\\{)(case\"map\":\\{let [\\w$]+=\\2\\.size>0;)",
+   "replace": "${1}case\"facing\":return ${2}.krYaw={yaw:${3}.yaw,at:${3}.at},!1;${4}",
+   "applied": "switch\\([\\w$]+\\.type\\)\\{case\"facing\":return [\\w$]+\\.krYaw=\\{yaw:"
+  },
+  {
+   "id": "kr-cube-bearing",
+   "description": "히든큐브: 방위(북쪽 기준)와 내 시선 방향 계산",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(state:\\(([\\w$]+),[\\w$]+\\)=>\\{let ([\\w$]+)=[\\w$]+&&\\2-[\\w$]+\\.at<[\\w$]+\\?[\\w$]+:void 0,[\\w$]+=\\[\\];for\\(let\\[[\\w$]+,([\\w$]+)\\]of ([\\w$]+)\\)[\\s\\S]{0,900}?rise:\\3\\?\\.z===void 0\\?void 0:Math\\.round\\(\\(\\4\\.z-\\3\\.z\\)/100\\))\\}\\)",
+   "replace": "${1},krBearing:${3}?Math.round(Math.atan2(${4}.x-${3}.x,${3}.y-${4}.y)*180/Math.PI):void 0,krHeading:${5}.krYaw&&${2}-${5}.krYaw.at<6e4?Math.round(Math.atan2(Math.cos(${5}.krYaw.yaw*Math.PI/180),-Math.sin(${5}.krYaw.yaw*Math.PI/180))*180/Math.PI):void 0})",
+   "applied": ",krBearing:[\\w$]+\\?Math\\.round\\(Math\\.atan2\\("
+  },
+  {
+   "id": "kr-radar-pos",
+   "description": "레이더: 퀘로그 지도의 내 위치 추정값을 콜아웃 기록에서 쓸 수 있게",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "([\\w$]+)=([\\w$]+)\\(\\(\\)=>([\\w$]+)\\.positions\\(\\)\\)(?=,)",
+   "replace": "${1}=${2}(()=>(globalThis.krPos=()=>${3}.positions(),${3}.positions()))",
+   "applied": "\\(globalThis\\.krPos=\\(\\)=>[\\w$]+\\.positions\\(\\),"
+  },
+  {
+   "id": "kr-kisk-log",
+   "description": "포스 키스크 조사용 기록 (kisk-log.ndjson, 최대 20MB)",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(let ([\\w$]+)=([\\w$]+)\\.get\\(([\\w$]+)\\);if\\(!\\2\\)return)\"skipped\";(let ([\\w$]+)=new ([\\w$]+)\\(([\\w$]+),([\\w$]+),([\\w$]+)\\),([\\w$]+);try\\{\\11=\\2\\.read\\(\\6\\)\\}catch\\(([\\w$]+)\\)\\{if\\(\\12 instanceof [\\w$]+\\)return [\\w$]+\\(\\4,\"locked\"\\),\"skipped\";throw \\12\\}return \\6\\.exact\\?\\()([\\w$]+)\\.push\\(\\{name:\\2\\.name,opcode:\\4,at:([\\w$]+),data:\\11\\}\\)",
+   "replace": "globalThis.krPk||(globalThis.krPk=(()=>{try{let fs=require(\"fs\"),pa=require(\"path\"),dir=pa.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\"),f=pa.join(dir,\"kisk-log.ndjson\"),sz=0,win=0,n=0,last=0,unk=new Map,ks=new Set,F=/^(Force(Info|AddMember|Disband|RemoveMember|Leave|ReconnectMember)|Party(Info|Leave|AddMember|RemoveMember))_NT$/,D=/^(NpcAppear|EnvObjSpawn|EnvObjDespawn|CharWarpEnter|CharWarpLeave)_NT$/,J=o=>JSON.stringify(o,(k,v)=>typeof v==\"bigint\"?v.toString():v),H=(b,s,r,m)=>Buffer.from(b.subarray(s,Math.min(r,s+m))).toString(\"hex\"),w=o=>{try{if(sz>2e7)return;let L=J(o);if(L.length>8e3)L=J({at:o.at,t:o.t,op:o.op,name:o.name,cut:L.slice(0,8e3)});L+=\"\\n\";sz+=L.length;fs.appendFileSync(f,L)}catch{}};fs.mkdirSync(dir,{recursive:!0});try{sz=fs.statSync(f).size}catch{}w({at:Date.now(),t:\"start\",pid:process.pid});return(c,nm,d,b,s,r)=>{try{let now=Date.now();if(nm){if(F.test(nm)){win=now+2e4;n=0;w({at:now,t:\"pk\",op:c,name:nm,data:d})}else if(nm===\"EnvObjSpawn_NT\"&&d&&d.kiskKey){ks.add(d.key);win=Math.max(win,now+8e3);n=0;w({at:now,t:\"kisk\",op:c,data:d})}else if(nm===\"EnvObjDespawn_NT\"&&d&&ks.has(d.key)){ks.delete(d.key);w({at:now,t:\"kisk-gone\",op:c,data:d})}else if(now<win&&n<600){n++;w(D.test(nm)?{at:now,t:\"win\",op:c,name:nm,data:d}:{at:now,t:\"win\",op:c,name:nm})}}else{let u=unk.get(c);if(!u)unk.set(c,u={n:0,w:0,s:[]});u.n++;if(u.s.length<2)u.s.push(H(b,s,r,128));if(now<win&&n<600){n++;w({at:now,t:\"raw\",op:c,len:r-s,hex:H(b,s,r,1024)})}if(now-last>6e4){last=now;for(let[o,v]of unk)if(v.n!==v.w){v.w=v.n;w({at:now,t:\"unk\",op:o,n:v.n,s:v.s})}}}}catch{}}}catch{return()=>{}}})());${1} ${14}&&globalThis.krPk(${4},null,null,${8},${9},${10}),\"skipped\";${5}${14}&&globalThis.krPk(${4},${2}.name,${11},${8},${9},${10}),${13}.push({name:${2}.name,opcode:${4},at:${14},data:${11}})",
+   "applied": "globalThis\\.krPk\\|\\|\\(globalThis\\.krPk=\\(\\(\\)=>\\{[\\s\\S]{0,4000}?\\}\\)\\(\\)\\);let ([\\w$]+)=[\\w$]+\\.get\\(([\\w$]+)\\);if\\(!\\1\\)return [\\w$]+&&globalThis\\.krPk\\(\\2,null,null,"
+  }
+ ]
 }
