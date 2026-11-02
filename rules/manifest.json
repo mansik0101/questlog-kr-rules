@@ -1,7 +1,16 @@
 {
- "revision": "8.3",
- "minPatcher": "8.1",
+ "revision": "8.9",
+ "minPatcher": "8.9",
  "notes": [
+  {
+   "rev": "8.9",
+   "lines": [
+    "미니맵 화면 읽기: 히든큐브·포스 키스크를 게임 미니맵 위 점 + 화면 화살표 + '오른쪽 앞 24미터' 음성으로 안내",
+    "우리 포스·파티 키스크 알림 (설치자·소속 포스 확인)",
+    "가볍게: 조사용 기록 제거, 목표 없을 때·미니맵 안 보일 때 분석 횟수 줄임",
+    "패처 rev 8.9 exe가 필요합니다"
+   ]
+  },
   {
    "rev": "8.3",
    "lines": [
@@ -39,7 +48,7 @@
   }
  ],
  "files": {
-  "patches.json": "599dd69a5f8685435e85e809ab25f2a72315407e646acb37470f20091e8beedf",
+  "patches.json": "788a5ed857359c0c2f62cb9eddb26e8a3b621edcbcadf49b39bcb0ab5174c63c",
   "renderer-patches.json": "68d687da83b124b11671a4ac1a1f31436f973d7ea97d8bd52015376b363c81a7",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
