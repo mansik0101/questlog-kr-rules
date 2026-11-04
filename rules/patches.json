@@ -1,6 +1,6 @@
 ﻿{
  "name": "퀘스트 로그 한섭 패치",
- "revision": "8.9",
+ "revision": "9.0",
  "updated": "2026-11-03",
  "updateUrl": "",
  "originals": {
@@ -8,7 +8,8 @@
   "0.1.41": "308cf2d9815342081ed6e8e989eaa874d36281b5721be208c3db98fd922e0da4",
   "0.1.44": "eaa45e5fcf70b1d458cc0306b285852f99cba256e7c4e4588f5378b25e7fa8a9",
   "0.1.46": "2c7d7e797fda5caa1b650c0d12acd04384f85d6a8d6b9011b54710c56e1af5f8",
-  "0.1.47": "020dd9a2c99042467173a0ed30495c2b8d6f0866b75d7c4d6c548dd0fc3347e6"
+  "0.1.47": "020dd9a2c99042467173a0ed30495c2b8d6f0866b75d7c4d6c548dd0fc3347e6",
+  "0.1.48": "3490b4187613a01326fb06c198a4c212b9fdfa55c8f5f40f84ce55557e7cb0ab"
  },
  "rules": [
   {

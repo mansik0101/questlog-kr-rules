@@ -1,7 +1,13 @@
 {
- "revision": "8.9",
+ "revision": "9.0",
  "minPatcher": "8.9",
  "notes": [
+  {
+   "rev": "9.0",
+   "lines": [
+    "Questlog 0.1.48 지원 (한섭 서버·파티·콜아웃·히든큐브·미니맵 기능 그대로)"
+   ]
+  },
   {
    "rev": "8.9",
    "lines": [
@@ -48,8 +54,8 @@
   }
  ],
  "files": {
-  "patches.json": "788a5ed857359c0c2f62cb9eddb26e8a3b621edcbcadf49b39bcb0ab5174c63c",
-  "renderer-patches.json": "68d687da83b124b11671a4ac1a1f31436f973d7ea97d8bd52015376b363c81a7",
+  "patches.json": "7496158aefc0e023ea313d33d438773524a51198e7bacdde8975255d74a882cb",
+  "renderer-patches.json": "be1d5d61320f059a6c4339da43288712b7de1f3f191fdc3bae464ef4d346383a",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }
