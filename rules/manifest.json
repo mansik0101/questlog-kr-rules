@@ -1,7 +1,31 @@
 {
- "revision": "9.0",
- "minPatcher": "8.9",
+ "revision": "9.4",
+ "minPatcher": "9.2",
  "notes": [
+  {
+   "rev": "9.4",
+   "lines": [
+    "Questlog 0.1.51 지원",
+    "콜아웃 기록 규칙을 0.1.51 이벤트 처리 변경에 맞춤",
+    "미니맵 히든큐브 목록 화면 파일 찾기 표지 수정"
+   ]
+  },
+  {
+   "rev": "9.3",
+   "lines": [
+    "자동 복구·재적용: Questlog 파일 손상·업데이트 때 꺼져 있으면 알아서 다시 적용 (패처 rev 9.3 exe에서 켜짐)",
+    "패처 도구: 진단 파일, 설정 백업·가져오기, 규칙 되돌리기 (패처 rev 9.3 exe)"
+   ]
+  },
+  {
+   "rev": "9.2",
+   "lines": [
+    "포스·파티 키스크가 사라지면 알림도 사라짐",
+    "키스크 알림은 30초 뒤 자동으로 사라지고 다시 안 뜸",
+    "키스크 6m 안에 2초 있으면 등록한 것으로 보고 바로 끔",
+    "패처 rev 9.2 exe가 필요합니다"
+   ]
+  },
   {
    "rev": "9.0",
    "lines": [
@@ -54,8 +78,8 @@
   }
  ],
  "files": {
-  "patches.json": "7496158aefc0e023ea313d33d438773524a51198e7bacdde8975255d74a882cb",
-  "renderer-patches.json": "be1d5d61320f059a6c4339da43288712b7de1f3f191fdc3bae464ef4d346383a",
+  "patches.json": "96b94c020200bf317b57d4dcfb60c1fdcfaa8bf5f3df4bee2e2070d598270524",
+  "renderer-patches.json": "8edab64d5a70785bb859315bc8fd968fc280189397e45e1dc15d693981391bac",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }
