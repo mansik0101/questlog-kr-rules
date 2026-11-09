@@ -1,7 +1,14 @@
 {
- "revision": "9.4",
+ "revision": "9.5",
  "minPatcher": "9.2",
  "notes": [
+  {
+   "rev": "9.5",
+   "lines": [
+    "필드 보스: 한국 서버는 내 게임에서 읽은 시간으로 표시 (서버 선택 → 한국 탭 → '한국 서버')",
+    "한국 서버 필드 보스 시간은 글로벌 사이트로 보내지 않음"
+   ]
+  },
   {
    "rev": "9.4",
    "lines": [
@@ -78,8 +85,8 @@
   }
  ],
  "files": {
-  "patches.json": "96b94c020200bf317b57d4dcfb60c1fdcfaa8bf5f3df4bee2e2070d598270524",
-  "renderer-patches.json": "8edab64d5a70785bb859315bc8fd968fc280189397e45e1dc15d693981391bac",
+  "patches.json": "ee4f0828815308999984c9f3b11849b0718dbc108d98504a149f1613e949d2ea",
+  "renderer-patches.json": "f8d85a3a6797b8bd4e84c86d7a44bcb04c7203cb14f1c7b13738b1c97a6d6ef5",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }

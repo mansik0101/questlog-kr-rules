@@ -607,6 +607,60 @@
     "fc0a9cda92b98a20a0a7ecc035f39e214bc2f25c4e587b5d111477589c095c17": "0.1.48",
     "7b1194b3b2f04d81bf535abf34fa6c4e3a2cfb3239965f979a5d610f8e7045a2": "0.1.51"
    }
+  },
+  {
+   "id": "kr-field-boss-picker",
+   "description": "필드 보스 화면: 서버 선택에 '한국 서버 (내 게임에서 읽은 시간)' 추가",
+   "optional": true,
+   "signature": [
+    "__name:`field-bosses`",
+    "a2-field-bosses-filters"
+   ],
+   "patched": "{servers:krFbAll}",
+   "variants": [
+    {
+     "name": "regex",
+     "regex": true,
+     "edits": [
+      {
+       "count": 1,
+       "find": "\\{servers:([\\w$]+)\\}=([\\w$]+)\\(\\),([\\w$]+)=([\\w$]+)\\(`a2-field-bosses-filters`,\\{\\.\\.\\.([\\w$]+)\\},\\{mergeDefaults:!0\\}\\),([\\w$]+)=([\\w$]+)\\(\\(\\)=>([\\w$]+)\\(Number\\(([\\w$]+)\\.value\\.scope\\)\\)\\?Number\\(\\9\\.value\\.scope\\):void 0\\)",
+       "replace": "{servers:krFbAll}=${2}(),${1}=${7}(()=>[...(krFbAll.value??[]),{serverId:9990,region:`ko`,name:`한국 서버 (내 게임에서 읽은 시간)`,race:1}]),${3}=${4}(`a2-field-bosses-filters`,{...${5}},{mergeDefaults:!0}),${6}=${7}(()=>${8}(Number(${9}.value.scope))||Number(${9}.value.scope)===9990?Number(${9}.value.scope):void 0)",
+       "applied": "\\{servers:krFbAll\\}=[\\w$]+\\(\\),[\\w$]+=[\\w$]+\\(\\(\\)=>\\[\\.\\.\\.\\(krFbAll\\.value\\?\\?\\[\\]\\),\\{serverId:9990"
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "ab1ae7112b2e53500a33cecd4eb3e74dfd48b99204fd8a0dc00d19e25d16ec2e": "0.1.45",
+    "c87352889b906f9bdfc69426596ade0c0dd5ce3a21e847e6abdfbb929288adee": "0.1.47",
+    "7e2d791403f468a7fe6b5ca5ba605974592e5a53117e7409a8887e7058157088": "0.1.48",
+    "28aed3f9df4fae0e874da16cc7c24231c37982e953487471b1962653319f69db": "0.1.51"
+   }
+  },
+  {
+   "id": "kr-region-ko",
+   "description": "서버 선택 창에 '한국' 탭 추가",
+   "optional": true,
+   "signature": [
+    "{id:`as`,nameKey:`a2.regions.as`}];function"
+   ],
+   "patched": "{id:`ko`,nameKey:`a2.regions.ko`}];function",
+   "variants": [
+    {
+     "name": "all",
+     "edits": [
+      {
+       "count": 1,
+       "find": "{id:`as`,nameKey:`a2.regions.as`}];function",
+       "replace": "{id:`as`,nameKey:`a2.regions.as`},{id:`ko`,nameKey:`a2.regions.ko`}];function"
+      }
+     ]
+    }
+   ],
+   "originals": {
+    "dfe10958fbe5374097afbbc86d009fbaf2e352c8091f22a2084a36ff405f1e4b": "0.1.51"
+   }
   }
  ],
  "revision": "8.9.1"

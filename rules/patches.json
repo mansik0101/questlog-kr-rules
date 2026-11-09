@@ -1,7 +1,7 @@
 {
  "name": "퀘스트 로그 한섭 패치",
- "revision": "9.4",
- "updated": "2026-11-07",
+ "revision": "9.5",
+ "updated": "2026-11-09",
  "updateUrl": "",
  "originals": {
   "0.1.39": "89744492146c622e9f2d31b3d7ac00a30224add7175e8a7f5f14415e3f91f583",
@@ -199,6 +199,22 @@
    "find": "(let ([\\w$]+)=([\\w$]+)\\.get\\(([\\w$]+)\\);if\\(!\\2\\)return)\"skipped\";(let ([\\w$]+)=new ([\\w$]+)\\(([\\w$]+),([\\w$]+),([\\w$]+)\\),([\\w$]+);try\\{\\11=\\2\\.read\\(\\6\\)\\}catch\\(([\\w$]+)\\)\\{if\\(\\12 instanceof [\\w$]+\\)return [\\w$]+\\(\\4,\"locked\"\\),\"skipped\";throw \\12\\}return \\6\\.exact\\?\\()([\\w$]+)\\.push\\(\\{name:\\2\\.name,opcode:\\4,at:([\\w$]+),data:\\11\\}\\)",
    "replace": "globalThis.krPk||(globalThis.krPk=(()=>{try{let fs=require(\"fs\"),pa=require(\"path\"),ev=pa.join(process.env.APPDATA||\"\",\"Questlog\",\"kr-callouts\",\"events.ndjson\"),KS=new Map,KK=new Set,myF=null,myP=null,fxT=0,fxW=0,fxS=\"\",J=o=>JSON.stringify(o,(k,v)=>typeof v==\"bigint\"?v.toString():v),put=o=>{try{fs.appendFileSync(ev,J(o)+\"\\n\")}catch{}},say=o=>put({at:Date.now(),k:\"kisk-at\",id:o.kk,kind:o.flag===2?\"force\":\"party\",isNew:!!o.isNew,owner:o.owner,x:Math.round(o.x),y:Math.round(o.y),z:o.z==null?void 0:Math.round(o.z)}),gone=o=>{o&&o.kk&&put({at:Date.now(),k:\"kisk-gone\",id:o.kk})},check=()=>{for(let o of KS.values()){let g=o.flag===2?myF:o.flag===1?myP:null;if(!g||o.group!==g)continue;let tag=o.kk+\":\"+g;if(KK.has(tag))continue;KK.add(tag);say(o)}};try{fs.mkdirSync(pa.dirname(ev),{recursive:!0})}catch{}return(c,nm,d,b,s,r,at)=>{try{let now=Date.now();if(now-fxT>=250){fxT=now;try{let p=globalThis.krPos?.()?.self;if(p&&p.x!=null&&p.y!=null){let raw=p.accuracy==null,sig=p.x+\",\"+p.y+\",\"+p.at;if(sig!==fxS&&(raw||now-fxW>=500)){fxS=sig;fxW=now;let age=at!=null&&p.at!=null?Math.max(0,at-p.at):0;put({at:now-age,k:\"fix\",x:p.x,y:p.y,z:p.z,raw,acc:p.accuracy,lost:!!p.lost})}}}catch{}}if(nm){switch(nm){case\"EnvObjSpawn_NT\":if(d){if(d.kiskKey){let o=KS.get(d.key);o&&o.kk!==String(d.kiskKey)&&gone(o);KS.set(d.key,{kk:String(d.kiskKey),x:d.pos.x,y:d.pos.y,z:d.pos.z,isNew:d.reason===6,flag:o&&o.kk===String(d.kiskKey)?o.flag:0,group:o?.group,owner:o?.owner})}else if(KS.has(d.key)){gone(KS.get(d.key));KS.delete(d.key)}}break;case\"EnvObjDespawn_NT\":if(d&&KS.has(d.key)&&d.reason!==1){gone(KS.get(d.key));KS.delete(d.key)}break;case\"PrepareEnterMap_NT\":KS.clear();break;case\"ForceInfo_NT\":if(d){myF=String(d.forceInfo.key);check()}break;case\"PartyInfo_NT\":if(d){myP=String(d.partyInfo.key);check()}break;case\"ForceLeave_NT\":case\"ForceDisband_NT\":myF=null;break;case\"PartyLeave_NT\":case\"PartyDisband_NT\":case\"PartyKickout_NT\":myP=null;break}}else if(c===16646){let B=Buffer.from(b.buffer,b.byteOffset+s,r-s),i=0,key=0,sh=0,x;do{x=B[i++];key+=(x&127)*2**sh;sh+=7}while(x&128&&i<6);let fl=B[i++],o=KS.get(key);if(o&&(fl===1||fl===2)){i+=2;let ln=B[i++];o.owner=B.toString(\"utf8\",i,i+ln);i+=ln;o.group=B.readBigInt64LE(i).toString();o.flag=fl;check()}}}catch{}}}catch{return()=>{}}})());${1} ${14}&&globalThis.krPk(${4},null,null,${8},${9},${10},${14}),\"skipped\";${5}${14}&&globalThis.krPk(${4},${2}.name,${11},${8},${9},${10},${14}),${13}.push({name:${2}.name,opcode:${4},at:${14},data:${11}})",
    "applied": "globalThis\\.krPk\\|\\|\\(globalThis\\.krPk=\\(\\(\\)=>\\{[\\s\\S]{0,14000}?\\}\\)\\(\\)\\);let ([\\w$]+)=[\\w$]+\\.get\\(([\\w$]+)\\);if\\(!\\1\\)return [\\w$]+&&globalThis\\.krPk\\(\\2,null,null,"
+  },
+  {
+   "id": "kr-field-boss-local",
+   "description": "필드 보스: 한국 서버도 내 게임에서 읽은 시간을 '한국 서버' 목록으로 저장",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "function ([\\w$]+)\\(([\\w$]+),([\\w$]+),([\\w$]+)\\)\\{let ([\\w$]+)=([\\w$]+)\\(\\3\\);if\\(!\\5\\)return;(?=let [\\w$]+=\\2\\.bosses\\.flatMap)",
+   "replace": "function ${1}(${2},${3},${4}){let ${5}=${6}(${3});if(!${5}&&${3}>0)${5}=\"kr\",${3}=9990;if(!${5})return;",
+   "applied": "\\{let ([\\w$]+)=[\\w$]+\\(([\\w$]+)\\);if\\(!\\1&&\\2>0\\)\\1=\"kr\",\\2=9990;if\\(!\\1\\)return;let [\\w$]+=[\\w$]+\\.bosses\\.flatMap"
+  },
+  {
+   "id": "kr-field-boss-noshare",
+   "description": "필드 보스: 한국 서버 시간은 글로벌 사이트로 보내지 않음",
+   "file": ".output/electron/workers/aion-2/combat.cjs",
+   "find": "(?<![\\w$])(?<!\\?Promise\\.resolve\\(\\):)([\\w$]+)\\(\\)\\.mutateSite\\.mutate\\(\\{procedure:\"fieldBoss\\.report\",input:\\{server:([\\w$]+),bosses:([\\w$]+)\\}\\}\\)",
+   "replace": "(${2}===9990?Promise.resolve():${1}().mutateSite.mutate({procedure:\"fieldBoss.report\",input:{server:${2},bosses:${3}}}))",
+   "applied": "\\(([\\w$]+)===9990\\?Promise\\.resolve\\(\\):[\\w$]+\\(\\)\\.mutateSite\\.mutate\\(\\{procedure:\"fieldBoss\\.report\""
   }
  ]
 }
