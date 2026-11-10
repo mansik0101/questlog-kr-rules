@@ -1,7 +1,14 @@
 {
- "revision": "9.5",
+ "revision": "9.6",
  "minPatcher": "9.2",
  "notes": [
+  {
+   "rev": "9.6",
+   "lines": [
+    "콜아웃 기록 규칙이 이미 패치된 파일에 한 번 더 걸리지 않게 수정",
+    "패처 rev 9.9 exe: 저장된 규칙 검증, 설정 가져오기 검사 강화"
+   ]
+  },
   {
    "rev": "9.5",
    "lines": [
@@ -85,7 +92,7 @@
   }
  ],
  "files": {
-  "patches.json": "ee4f0828815308999984c9f3b11849b0718dbc108d98504a149f1613e949d2ea",
+  "patches.json": "fd1330a85d433b77844cd76ec55cbf2d71365a8eb6ba89bb7cd5e16e89e72507",
   "renderer-patches.json": "f8d85a3a6797b8bd4e84c86d7a44bcb04c7203cb14f1c7b13738b1c97a6d6ef5",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
