@@ -1,7 +1,15 @@
 {
- "revision": "9.7",
+ "revision": "9.8",
  "minPatcher": "9.2",
  "notes": [
+  {
+   "rev": "9.8",
+   "lines": [
+    "11/11 새 시즌 서버 매칭 반영 (21개 그룹)",
+    "아티팩트 점령전·나흐마: 그룹별 22:00 / 22:30 / 23:00",
+    "아티팩트 뒤 어비스 보스 알림 제거, 감시자 카이라 1·9·13·21시"
+   ]
+  },
   {
    "rev": "9.7",
    "lines": [
@@ -99,8 +107,8 @@
   }
  ],
  "files": {
-  "patches.json": "16e0a93ef112cc87332e69dd507b196e123cd17c36a2f2255fcd03fe3cdb6643",
-  "renderer-patches.json": "fe3d854c3c97630599b2f3384352f7543347b7d7d2aff9ef881cf99c1ecb06b6",
+  "patches.json": "9f0044cf21e68c21060d4bdf5da320cd68de301e7e1d8cc26dec60108ab3f7e8",
+  "renderer-patches.json": "a4e25a1f845b2c9d202878c4c5dae5746252a9fdf2ae2ed627acd76beae3c6e9",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }
