@@ -1,7 +1,14 @@
 {
- "revision": "9.6",
+ "revision": "9.7",
  "minPatcher": "9.2",
  "notes": [
+  {
+   "rev": "9.7",
+   "lines": [
+    "Questlog 0.1.53 지원",
+    "어비스 히든큐브 조사용: 처음 보는 오브젝트 번호를 obj-seen.ndjson에 기록 (최대 5MB, 화면·알림 변화 없음)"
+   ]
+  },
   {
    "rev": "9.6",
    "lines": [
@@ -92,8 +99,8 @@
   }
  ],
  "files": {
-  "patches.json": "fd1330a85d433b77844cd76ec55cbf2d71365a8eb6ba89bb7cd5e16e89e72507",
-  "renderer-patches.json": "f8d85a3a6797b8bd4e84c86d7a44bcb04c7203cb14f1c7b13738b1c97a6d6ef5",
+  "patches.json": "16e0a93ef112cc87332e69dd507b196e123cd17c36a2f2255fcd03fe3cdb6643",
+  "renderer-patches.json": "fe3d854c3c97630599b2f3384352f7543347b7d7d2aff9ef881cf99c1ecb06b6",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }
