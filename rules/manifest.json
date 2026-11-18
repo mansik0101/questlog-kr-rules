@@ -1,7 +1,14 @@
 {
- "revision": "9.8",
- "minPatcher": "9.2",
+ "revision": "10.0",
+ "minPatcher": "10.0",
  "notes": [
+  {
+   "rev": "10.0",
+   "lines": [
+    "Questlog 0.1.56 지원",
+    "0.1.56부터 데이터 파일 이름이 바뀌어 패처 rev 10.0 exe가 필요합니다"
+   ]
+  },
   {
    "rev": "9.8",
    "lines": [
@@ -107,8 +114,8 @@
   }
  ],
  "files": {
-  "patches.json": "9f0044cf21e68c21060d4bdf5da320cd68de301e7e1d8cc26dec60108ab3f7e8",
-  "renderer-patches.json": "a4e25a1f845b2c9d202878c4c5dae5746252a9fdf2ae2ed627acd76beae3c6e9",
+  "patches.json": "78d594c52c9ac748eccfb4b88f5391f9e84f007350b62bdeb8dbb5ce567b0e35",
+  "renderer-patches.json": "17d715e4f3f21feacd26a1444f71e7c485e1e3c5de8da762681bae04dc5b5591",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }
