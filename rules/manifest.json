@@ -1,7 +1,14 @@
 {
- "revision": "10.0",
+ "revision": "10.1",
  "minPatcher": "10.0",
  "notes": [
+  {
+   "rev": "10.1",
+   "lines": [
+    "퀘로그 이벤트 알림 화면의 남은 시간을 11/11 매칭표 기준으로 수정",
+    "카이라 01·09·13·21시, 점령전 뒤 보스 제거를 화면에도 반영"
+   ]
+  },
   {
    "rev": "10.0",
    "lines": [
@@ -114,8 +121,8 @@
   }
  ],
  "files": {
-  "patches.json": "78d594c52c9ac748eccfb4b88f5391f9e84f007350b62bdeb8dbb5ce567b0e35",
-  "renderer-patches.json": "17d715e4f3f21feacd26a1444f71e7c485e1e3c5de8da762681bae04dc5b5591",
+  "patches.json": "37f9a7399925bd84c6a7f547a10fdd7fd7d261490f5cdcaa65f561be887a60de",
+  "renderer-patches.json": "d758bcf25729e8253936e20b27d5f1c26624724a784476b0e27db1f9d2bddd3f",
   "callout-rules-tadeva.json": "52c7a8039ac957ed2ab57bcfbd39e3edcec15a66f3813d3ad289e710e5bd7004"
  }
 }
